@@ -1646,6 +1646,17 @@ h2.section-title {
     margin-top: 1.75rem; /* H2 → body: 28px, w zakresie 24–32px z briefu */
   }
 
+  /* Nagłówek „Moja droga do biznesu zaczęła się od poznawania świata.” ma mieścić się
+     w max. 3 liniach na desktopie. Kolumna tekstu jest wąska (300–490 px), więc czcionka
+     skaluje się do SZEROKOŚCI KOLUMNY (container query units), z górnym limitem 44 px. */
+  .about__heading {
+    container-type: inline-size;
+  }
+  .about__heading h2.section-title {
+    font-size: min(44px, 8.2cqw);
+    text-wrap: balance; /* równe linie, bez osieroconego „świata.” w ostatniej */
+  }
+
   /* Editorial, nie idealnie wyśrodkowane: zdjęcie zaczyna się niżej niż
      headline i "wchodzi" bliżej PRAWEJ krawędzi viewportu (bleed). To już
      NIE wpływa na pozycję body (patrz komentarz wyżej) — .about__image-wrap
