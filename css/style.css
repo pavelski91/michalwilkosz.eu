@@ -2480,6 +2480,11 @@ h2.section-title {
   .photo-break__frame {
     aspect-ratio: 4 / 3;
   }
+  /* Siatka kropek nachodziła na twarz na wąskim ekranie (postać stoi
+     centralnie) — na mobile w tej sekcji jej nie pokazujemy. */
+  .photo-break__dots {
+    display: none;
+  }
 }
 
 /* --- Praktyka (compact executive journal, nie blog, nie tabela) ---
