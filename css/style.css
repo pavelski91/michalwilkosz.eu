@@ -610,6 +610,15 @@ h2.section-title {
   background: rgba(11, 122, 107, 0.08);
 }
 
+/* Przycisk outline w nagłówku („Porozmawiajmy”, „Wróć do strony głównej”): turkusowa obwódka
+   jak przy „Dołącz do newslettera”, tekst zostaje ciemny. */
+.site-header .btn--outline {
+  border-color: var(--teal);
+}
+.site-header .btn--outline:hover {
+  background: rgba(0, 173, 139, 0.1);
+}
+
 .btn--ghost {
   background: transparent;
   border-color: var(--line-on-dark);
