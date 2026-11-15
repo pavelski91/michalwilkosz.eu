@@ -2919,8 +2919,29 @@ h2.section-title {
 
 .contact__intro {
   position: relative;
-  max-width: 42ch;
   padding-top: 22px;
+}
+/* Wąska miara dotyczy akapitu, nie nagłówka — dzięki temu headline może zająć całą kolumnę. */
+.contact__intro .body-copy {
+  max-width: 42ch;
+}
+
+/* Nagłówek „Masz przed sobą ważną decyzję biznesową?” — domyślny rozmiar jak w pozostałych
+   sekcjach (bez własnego zmniejszania), mieści się w max. 3 liniach; text-wrap: balance
+   wyrównuje długość linii. Na telefonie 32 px, tak jak nagłówki „O mnie” i „W co wierzę”. */
+.contact__intro h2.section-title {
+  text-wrap: balance;
+}
+@media (max-width: 699px) {
+  .contact__intro h2.section-title {
+    font-size: 32px;
+  }
+}
+/* Tablet: dwie kolumny, ale wąska kolumna intro — czcionka proporcjonalna do ekranu, żeby zostały 3 linie. */
+@media (min-width: 700px) and (max-width: 1023px) {
+  .contact__intro h2.section-title {
+    font-size: clamp(26px, 3.5vw, 40px);
+  }
 }
 
 /* Iteracja 25 — krótka POZIOMA turkusowa linia nad eyebrow (nie kopia
