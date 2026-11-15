@@ -1486,7 +1486,7 @@ h2.section-title {
    identyczną geometrię automatycznie (object-fit:cover niżej, bez zmian). */
 @media (max-width: 767px) {
   .hero__image-frame {
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 4 / 5;
     height: auto;
   }
 }
