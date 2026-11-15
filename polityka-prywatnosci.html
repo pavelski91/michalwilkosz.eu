@@ -16,7 +16,9 @@
 
   <header class="site-header" id="site-header">
     <div class="container site-header__inner">
-      <a href="index.html" class="site-header__logo">Michał Wilkosz</a>
+      <a href="index.html" class="site-header__logo">
+        <span class="wordmark__name">Michał</span><span class="wordmark__surname">Wilkosz</span><span class="wordmark__dot">.</span>
+      </a>
       <nav class="site-nav" aria-label="Główna nawigacja">
         <a href="index.html" class="btn btn--outline">Wróć do strony głównej</a>
       </nav>
@@ -223,8 +225,25 @@
     </section>
   </main>
 
-  <footer class="section--dark site-footer">
+  <footer class="section--ink-green site-footer on-dark">
     <div class="container">
+      <div class="site-footer__top">
+        <div>
+          <p class="site-footer__name">
+            <span class="wordmark__name">Michał</span><span class="wordmark__surname">Wilkosz</span><span class="wordmark__dot">.</span>
+          </p>
+          <p class="site-footer__role">CEO Szybex</p>
+        </div>
+
+        <nav class="site-footer__links" aria-label="Nawigacja w stopce">
+          <a href="https://www.linkedin.com/in/micha%C5%82-wilkosz-08070479/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="index.html#kontakt">Kontakt</a>
+          <a href="index.html#newsletter">Newsletter</a>
+          <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+          <a href="cookies.html">Cookies</a>
+        </nav>
+      </div>
+
       <p class="site-footer__bottom">© <span id="footerYear">2026</span> Michał Wilkosz</p>
     </div>
   </footer>
