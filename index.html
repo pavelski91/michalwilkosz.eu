@@ -1,0 +1,889 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Michał Wilkosz | CEO, strategia i skalowanie biznesu</title>
+  <meta name="description" content="Michał Wilkosz — CEO Szybex. O budowaniu organizacji, które potrafią rosnąć bez utraty jakości: strategia, skalowanie, procesy, ludzie i technologia." />
+  <link rel="canonical" href="https://michalwilkosz.eu/" />
+  <meta name="theme-color" content="#0A0D0C" />
+  <meta name="robots" content="index, follow" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="pl_PL" />
+  <meta property="og:title" content="Michał Wilkosz | CEO, strategia i skalowanie biznesu" />
+  <meta property="og:description" content="CEO Szybex. Strategia. Skalowanie. Procesy. Ludzie. Technologia. Praktyczne wnioski z budowania organizacji, które potrafią rosnąć bez utraty jakości." />
+  <meta property="og:url" content="https://michalwilkosz.eu/" />
+  <meta property="og:image" content="https://michalwilkosz.eu/images/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Michał Wilkosz | CEO, strategia i skalowanie biznesu" />
+  <meta name="twitter:description" content="CEO Szybex. Strategia. Skalowanie. Procesy. Ludzie. Technologia." />
+  <meta name="twitter:image" content="https://michalwilkosz.eu/images/og-image.png" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <!-- Preconnect / preload — self-hosted fonty, brak zależności od CDN -->
+  <link rel="preload" href="assets/fonts/general-sans-400.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/general-sans-600.woff2" as="font" type="font/woff2" crossorigin />
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- Schema.org: Person -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Michał Wilkosz",
+    "jobTitle": "CEO",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Szybex"
+    },
+    "url": "https://michalwilkosz.eu/",
+    "description": "CEO Szybex. Strategia, skalowanie, procesy, ludzie i technologia.",
+    "sameAs": [
+      "https://www.linkedin.com/in/micha%C5%82-wilkosz-08070479/"
+    ]
+  }
+  </script>
+
+  <!-- Schema.org: WebSite -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Michał Wilkosz",
+    "url": "https://michalwilkosz.eu/"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Przejdź do treści głównej</a>
+
+  <!-- ============ NAWIGACJA ============ -->
+  <header class="site-header" id="site-header">
+    <div class="container site-header__inner">
+      <a href="#hero" class="site-header__logo">
+        <span class="wordmark__name">Michał</span><span class="wordmark__surname">Wilkosz</span><span class="wordmark__dot">.</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Główna nawigacja">
+        <ul class="site-nav__list">
+          <li><a href="#o-mnie">O mnie</a></li>
+          <li><a href="#szybex">Doświadczenie</a></li>
+          <li><a href="#obszary">Obszary</a></li>
+          <li><a href="#praktyka">Publikacje</a></li>
+          <li><a href="#newsletter">Newsletter</a></li>
+        </ul>
+        <a href="#kontakt" class="btn btn--outline site-nav__cta">Porozmawiajmy</a>
+      </nav>
+
+      <div class="site-header__actions">
+        <a href="#kontakt" class="btn btn--primary btn--compact mobile-cta">Porozmawiajmy</a>
+        <button
+          class="menu-toggle"
+          id="menuToggle"
+          aria-expanded="false"
+          aria-controls="mobileNav"
+          aria-label="Otwórz menu"
+        >
+          <span class="menu-toggle__bar"></span>
+          <span class="menu-toggle__bar"></span>
+          <span class="menu-toggle__bar"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu mobilne — pełnoekranowe overlay. Główne CTA "Porozmawiajmy" jest
+       zawsze widoczne w headerze (patrz .mobile-cta), więc overlay skupia się
+       na nawigacji, a nie duplikuje dużego przycisku. -->
+  <div class="mobile-nav" id="mobileNav" data-state="closed">
+    <div class="mobile-nav__inner">
+      <ul class="mobile-nav__list">
+        <li><a href="#o-mnie">O mnie</a></li>
+        <li><a href="#szybex">Doświadczenie</a></li>
+        <li><a href="#obszary">Obszary</a></li>
+        <li><a href="#praktyka">Publikacje</a></li>
+        <li><a href="#newsletter">Newsletter</a></li>
+      </ul>
+      <a href="#kontakt" class="btn btn--primary mobile-nav__cta">Porozmawiajmy</a>
+    </div>
+  </div>
+
+  <main id="main">
+    <!-- ============ HERO ============ -->
+    <section id="hero" class="section section--dark hero on-dark">
+      <!-- Iteracja 15: pierwsze pojawienie się markowego dot-patternu na
+           stronie (ten sam język wizualny co Szybex niżej — ta sama kropka/
+           spacing/opacity, inny róg), żeby powtórzenie w kolejnych sekcjach
+           czytało się jako świadomy system, nie przypadek. Róg dolny-prawy,
+           nie nachodzi na H1 (które startuje od góry po lewej). -->
+      <span class="dot-pattern dot-pattern--dark dot-pattern--corner-br" aria-hidden="true"></span>
+
+      <!-- Kolejność w DOM = kolejność mobilna (H1 → zdjęcie → body → descriptor
+           → CTA). Od 900px CSS (.hero__grid, patrz style.css) nadaje jawne
+           grid-column/grid-row i składa to w 2-kolumnową kompozycję: tekst
+           obok zdjęcia, jeden grid, bez pustego gapu. -->
+      <div class="container hero__grid">
+        <h1
+          class="hero__title"
+          aria-label="Michał Wilkosz — Buduję organizacje, które potrafią rosnąć bez utraty jakości."
+        >
+          <span class="hero__statement">Buduję organizacje, które potrafią rosnąć bez utraty jakości.</span>
+        </h1>
+
+        <div class="hero__media">
+          <div class="hero__image-frame parallax">
+            <img
+              src="images/hero-portrait.svg"
+              alt="Michał Wilkosz — portret (zdjęcie zostanie uzupełnione)"
+              width="800"
+              height="1000"
+              loading="eager"
+              fetchpriority="high"
+            />
+          </div>
+        </div>
+
+        <!-- .hero__stack grupuje body/descriptor/CTA w JEDEN element gridu
+             (normalny document flow w środku, własne marginesy) — inaczej
+             zdjęcie rozpięte na 4 osobne wiersze wymuszało ich nierówny
+             wzrost (grid rozciągał wiersze do wysokości zdjęcia). -->
+        <div class="hero__stack">
+          <p class="hero__body">
+            Najwięcej nauczyłem się, przechodząc od codziennej pracy operacyjnej do zarządzania
+            całą organizacją.<span
+              class="hero__body-more"
+              >
+              Dziś, jako CEO Szybex — części Cary Group — skupiam się na budowaniu struktur,
+              procesów i zespołów, które pozwalają firmie rozwijać się w sposób świadomy
+              i przewidywalny.</span
+            >
+          </p>
+          <div class="hero__actions">
+            <a href="#o-mnie" class="btn btn--primary">Poznaj mnie</a>
+            <a href="#newsletter" class="btn btn--outline hero__cta-secondary">Dołącz do newslettera</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MANIFEST / INTRO ============ -->
+    <section id="manifest" class="section section--paper manifest">
+      <div class="container">
+        <span class="manifest__accent reveal" aria-hidden="true"></span>
+        <p class="manifest__statement reveal">
+          Firma naprawdę zaczyna rosnąć wtedy, gdy przestaje zależeć od jednej osoby.
+        </p>
+        <p class="manifest__body reveal">
+          Dobrze zaprojektowana organizacja to taka, w której decyzje nie utykają na biurku
+          jednej osoby. To wniosek z pracy przy rozwoju Szybex, ale sprawdza się w każdej firmie,
+          która chce rosnąć: jasne procesy, odpowiedzialność rozłożona na zespół i technologia,
+          która wspiera ludzi — a nie ich zastępuje.
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ O MNIE ============ -->
+    <!-- Iteracja 7: .about__text opakowuje heading+copy w JEDEN element DOM
+         (naprawia bug "body odjechało w dół" — gdy heading i copy były
+         osobnymi dziećmi grid/ w tej samej kolumnie co zdjęcie, wiersz
+         współdzielony ze zdjęciem rozciągał się do jego wysokości, spychając
+         body w dół). Na mobile .about__text ma display:contents (patrz CSS),
+         więc heading/copy nadal są bezpośrednimi elementami flexa i `order`
+         wstawia zdjęcie między nimi (kolejność mobilna: headline → zdjęcie →
+         body). Od 900px .about__text staje się zwykłym blokiem — JEDNYM
+         elementem gridu obok zdjęcia, więc body flow-uje normalnie zaraz
+         pod H2. -->
+    <section id="o-mnie" class="section section--paper about">
+      <div class="container about__grid">
+        <div class="about__text">
+          <div class="about__heading reveal">
+            <p class="eyebrow">O mnie</p>
+            <h2 class="section-title">Od placówek dyplomatycznych do budowania sieci serwisów w Polsce.</h2>
+          </div>
+
+          <div class="about__copy reveal">
+            <div class="about__body">
+              <p>
+                Moją drogę zawodową zaczynałem w środowisku międzynarodowym, pracując w placówkach
+                dyplomatycznych w Grecji, Turcji i Stanach Zjednoczonych.
+              </p>
+              <p>
+                Szybex znałem jednak dużo wcześniej — firmę w 1992 roku założył mój ojciec razem ze
+                wspólnikiem. Zawodowo dołączyłem do niej w 2016 roku, zaczynając blisko codziennej
+                pracy operacyjnej. Z czasem przeszedłem do obszaru rozwoju, a w 2021 roku przejąłem
+                stery jako CEO.
+              </p>
+            </div>
+
+            <div class="about__links">
+              <button
+                type="button"
+                class="disclosure__toggle"
+                id="aboutToggle"
+                aria-expanded="false"
+                aria-controls="aboutMore"
+              >
+                <span class="disclosure__label">Czytaj więcej</span>
+                <span class="disclosure__icon" aria-hidden="true">↓</span>
+              </button>
+
+              <a href="#szybex" class="about__scrollcue">Poznaj Szybex</a>
+            </div>
+
+            <!-- Iteracja 14 — na mobile początkowo widoczne są tylko 2 akapity
+                 (powyżej, ~6-7 linii) — reszta (w tym akapit "Dziś odpowiadam
+                 za organizację...", wcześniej widoczny od razu) przeniesiona
+                 tutaj. Desktop (≥768px, patrz CSS) pokazuje całość od razu —
+                 toggle ukryty, ta treść wymuszona jako widoczna. -->
+            <div class="disclosure__content" id="aboutMore">
+              <p>
+                Dziś odpowiadam za organizację obejmującą 19 własnych oddziałów i ponad 180 punktów
+                partnerskich. Najbardziej interesuje mnie to, jak rozwijać biznes bez utraty
+                jakości i bez uzależniania każdej decyzji od jednej osoby.
+              </p>
+              <p>
+                W Szybex zaczynałem blisko codziennej pracy operacyjnej — obsługi klientów,
+                organizacji serwisu, pierwszych procesów sprzedażowych. Dopiero później przeszedłem
+                do obszaru rozwoju firmy, gdzie uczyłem się patrzeć na biznes szerzej niż
+                z perspektywy jednego oddziału.
+              </p>
+              <p>
+                Rok 2021 był momentem, w którym przejąłem pełną odpowiedzialność za organizację.
+                Zmieniło to nie tylko zakres obowiązków, ale sposób myślenia — z zarządzania
+                zadaniami na zarządzanie ludźmi, procesami i decyzjami, które nie muszą przechodzić
+                przeze mnie.
+              </p>
+              <p>
+                Dziś najwięcej pracuję na styku biznesu, ludzi i technologii — nad tym, jak
+                sprzedawać i obsługiwać klientów w modelu B2B i e-commerce, i jak wykorzystywać
+                nowe technologie tak, żeby wspierały dobrze zaprojektowany proces, a nie łatały ten
+                źle zaprojektowany.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="about__image-wrap reveal">
+          <div class="about__image-frame">
+            <img
+              src="images/about-at-work.svg"
+              alt="Michał Wilkosz przy pracy (zdjęcie zostanie uzupełnione)"
+              width="800"
+              height="1000"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MICHAŁ W SZYBEX ============ -->
+    <!-- Ta sekcja jest o Michale, nie o firmie — Szybex jest tu środowiskiem
+         jego doświadczenia zawodowego, nie produktem strony. -->
+    <section id="szybex" class="section section--green-deep szybex on-dark">
+      <!-- Iteracja 13: dot-pattern przywrócony (referencja visual identity
+           z postów LinkedIn Michała) — może wychodzić poza container, nie
+           nachodzi na tekst. -->
+      <span class="dot-pattern dot-pattern--dark dot-pattern--corner-tr" aria-hidden="true"></span>
+
+      <!-- Kolejność w DOM = kolejność mobilna (eyebrow+headline → zdjęcie →
+           lead → "Czytaj więcej" → timeline). Od 900px .szybex__flow (CSS)
+           przesuwa zdjęcie na koniec sekcji (order), gdzie zamyka ją jako
+           duże, panoramiczne domknięcie. -->
+      <div class="container szybex__flow">
+        <div class="eyebrow-block reveal">
+          <p class="eyebrow">10 lat w Szybex</p>
+          <h2 class="section-title szybex__headline">Najwięcej o zarządzaniu<br />nauczyłem się w&nbsp;Szybex</h2>
+          <span class="badge szybex__meta">Szybex — część Cary Group</span>
+        </div>
+
+        <figure class="szybex__photo reveal">
+          <img
+            src="images/szybex-team.svg"
+            alt="Michał w oddziale Szybex, w rozmowie z zespołem (zdjęcie zostanie uzupełnione)"
+            width="1600"
+            height="800"
+            loading="lazy"
+          />
+        </figure>
+
+        <div class="szybex__intro reveal">
+          <p>
+            Szybex jest częścią mojego życia praktycznie od początku — firmę w 1992 roku założył
+            mój ojciec razem ze wspólnikiem. Zawodowo dołączyłem do niej w 2016 roku, a w 2021
+            przejąłem stery jako CEO. To właśnie tutaj najwięcej nauczyłem się o skalowaniu
+            firmy, procesach, odpowiedzialności i budowaniu zespołu. Dziś Szybex ma 19 własnych
+            oddziałów i ponad 180 punktów partnerskich.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          class="disclosure__toggle"
+          id="szybexToggle"
+          aria-expanded="false"
+          aria-controls="szybexMore"
+        >
+          <span class="disclosure__label">Czytaj więcej</span>
+          <span class="disclosure__icon" aria-hidden="true">↓</span>
+        </button>
+
+        <div class="disclosure__content" id="szybexMore" hidden>
+          <p>
+            Pod koniec 2025 roku firma dołączyła do Cary Group, co otworzyło kolejny etap
+            rozwoju i pozwoliło mi spojrzeć na podobne wyzwania z perspektywy międzynarodowej
+            organizacji.
+          </p>
+          <p>
+            Zaczynałem blisko działalności operacyjnej — tam, gdzie widać, jak faktycznie działa
+            firma na poziomie pojedynczego oddziału i pojedynczej decyzji. Później przeszedłem do
+            odpowiedzialności za rozwój, a w 2021 roku przejąłem stery jako CEO.
+          </p>
+          <p>
+            Największa zmiana, jaką przeszliśmy, to przejście z zarządzania przez bezpośrednią
+            kontrolę do zarządzania przez procesy i odpowiedzialność zespołów — budowania
+            organizacji, która potrafi podejmować dobre decyzje bez ciągłego udziału CEO.
+          </p>
+          <p>
+            Skala zmieniła nie tylko firmę — zmieniła też moją rolę: im większa stawała się
+            organizacja, tym mniej decyzji powinno zależeć bezpośrednio ode mnie.
+          </p>
+          <p>
+            Wejście do Cary Group pod koniec 2025 roku dało mi kolejną perspektywę — możliwość
+            porównania, jak podobne wyzwania związane z ludźmi, procesami, jakością
+            i skalowaniem rozwiązują firmy działające na innych rynkach.
+          </p>
+        </div>
+
+        <ol class="szybex-timeline reveal" id="szybexTimeline">
+          <li class="szybex-timeline__item timeline-anchor">
+            <span class="szybex-timeline__year">1992</span>
+            <span class="szybex-timeline__label">Powstaje Szybex</span>
+          </li>
+          <li class="szybex-timeline__item">
+            <span class="szybex-timeline__year">2016</span>
+            <span class="szybex-timeline__label">Dołączam zawodowo do firmy</span>
+          </li>
+          <li class="szybex-timeline__item timeline-anchor">
+            <span class="szybex-timeline__year">2021</span>
+            <span class="szybex-timeline__label">Przejmuję stery jako CEO</span>
+          </li>
+          <li class="szybex-timeline__item">
+            <span class="szybex-timeline__year">2025</span>
+            <span class="szybex-timeline__label">Szybex dołącza do Cary Group</span>
+          </li>
+          <li class="szybex-timeline__item szybex-timeline__item--today timeline-anchor">
+            <span class="szybex-timeline__year">Dziś</span>
+            <span class="szybex-timeline__label">19 własnych oddziałów i ponad 180 punktów partnerskich</span>
+          </li>
+        </ol>
+        <div class="carousel-dots szybex-timeline-dots" id="szybexTimelineDots" role="group" aria-label="Nawigacja osi czasu"></div>
+      </div>
+    </section>
+
+    <!-- ============ W CO WIERZĘ ============ -->
+    <section id="w-co-wierze" class="section section--charcoal on-dark">
+      <!-- Iteracja 15: fragment tego samego dot-patternu (nie pełne pokrycie
+           sekcji) w rogu górnym-prawym, tam gdzie i tak siedzą duże liczby
+           01–05 (.principle::before) — wzmacnia, nie zagłusza. -->
+      <span class="dot-pattern dot-pattern--dark dot-pattern--corner-tr" aria-hidden="true"></span>
+      <div class="container">
+        <div class="eyebrow-block reveal">
+          <p class="eyebrow">W co wierzę</p>
+          <h2 class="section-title principles__title">Zasady, które sprawdzają się w praktyce.</h2>
+        </div>
+
+        <div class="principles__viewport">
+          <span class="principles__line" aria-hidden="true"></span>
+          <ul class="principles__list" id="principlesList">
+          <li class="principle reveal">
+            <h3 class="principle__statement">Odpowiedzialność powinna być jak najbliżej miejsca, w którym dzieje się biznes.</h3>
+            <p class="principle__comment">
+              Dobra organizacja nie wymaga, żeby każda decyzja przechodziła przez zarząd. Potrzebuje ludzi, którzy rozumieją swój obszar i mają przestrzeń, żeby brać za niego odpowiedzialność.
+            </p>
+          </li>
+          <li class="principle reveal">
+            <h3 class="principle__statement">Wzrost trzeba przygotować, zanim stanie się potrzebny.</h3>
+            <p class="principle__comment">
+              Struktury, ludzie i sposób działania powinny być gotowe wcześniej. Skalowanie problemów jest znacznie łatwiejsze niż ich późniejsze naprawianie.
+            </p>
+          </li>
+          <li class="principle reveal">
+            <h3 class="principle__statement">Standaryzacja ma dawać swobodę, a nie ją odbierać.</h3>
+            <p class="principle__comment">
+              Wspólne standardy tworzą przewidywalność, ale nie powinny odbierać zespołom lokalnej wiedzy, inicjatywy i zdolności reagowania na rzeczywistość.
+            </p>
+          </li>
+          <li class="principle reveal">
+            <h3 class="principle__statement">Technologia ma wzmacniać dobre zarządzanie.</h3>
+            <p class="principle__comment">
+              Narzędzia mogą przyspieszać analizę, komunikację i pracę operacyjną. Ich wartość zaczyna się jednak dopiero wtedy, gdy organizacja wie, jaki problem chce nimi rozwiązać.
+            </p>
+          </li>
+          <li class="principle reveal">
+            <h3 class="principle__statement">Skala nie może oznaczać utraty tego, co zbudowało firmę.</h3>
+            <p class="principle__comment">
+              Rozwój może zmieniać strukturę, narzędzia i sposób działania organizacji. Nie powinien zmieniać jej fundamentów: ludzi, kultury i wartości.
+            </p>
+          </li>
+          </ul>
+        </div>
+        <div class="carousel-dots principles-dots" id="principlesDots" role="group" aria-label="Nawigacja zasad"></div>
+      </div>
+    </section>
+
+    <!-- ============ OBSZARY / TOPICS ============ -->
+    <section id="obszary" class="section section--paper">
+      <div class="container">
+        <div class="eyebrow-block reveal">
+          <p class="eyebrow">O czym mówię i piszę</p>
+          <h2 class="section-title">Obszary</h2>
+        </div>
+
+        <ol class="topics__list" id="obszaryCarousel">
+          <li>
+            <div class="topic reveal">
+              <h3>Przywództwo</h3>
+              <p>
+                Im większa organizacja, tym mniej decyzji powinno zależeć od jednej osoby. Piszę
+                o tym, jak zmienia się rola lidera, gdy firma przestaje być zarządzana
+                bezpośrednio, a zaczyna działać przez ludzi i struktury.
+              </p>
+            </div>
+          </li>
+          <li>
+            <div class="topic reveal">
+              <h3>Skalowanie</h3>
+              <p>
+                Wzrost sam w sobie nie jest trudny. Trudniejsze jest rozwijanie firmy tak, żeby
+                wraz ze skalą nie traciła jakości, szybkości działania i odpowiedzialności.
+              </p>
+            </div>
+          </li>
+          <li>
+            <div class="topic reveal">
+              <h3>Strategia</h3>
+              <p>
+                Strategia zaczyna się tam, gdzie trzeba wybrać, czego organizacja nie będzie
+                robić. Interesują mnie decyzje, które nie tylko poprawiają wynik dzisiaj, ale
+                zmieniają pozycję firmy za kilka lat.
+              </p>
+            </div>
+          </li>
+          <li>
+            <div class="topic reveal">
+              <h3>Ludzie</h3>
+              <p>
+                Żaden proces nie działa bez ludzi, którzy rozumieją swoją odpowiedzialność. Duża
+                część mojej pracy polega dziś na budowaniu zespołu, który potrafi działać bez
+                ciągłego pytania CEO o zgodę.
+              </p>
+            </div>
+          </li>
+          <li>
+            <div class="topic reveal">
+              <h3>Technologia i AI</h3>
+              <p>
+                Technologia może bardzo szybko poprawić dobrze zaprojektowany proces. Może też
+                bardzo szybko przyspieszyć bałagan — dlatego najpierw interesuje mnie organizacja
+                pracy, a dopiero później narzędzie.
+              </p>
+            </div>
+          </li>
+          <li>
+            <div class="topic reveal">
+              <h3>Motoryzacja</h3>
+              <p>
+                To branża, w której działam od 2016 roku i w której najwięcej nauczyłem się
+                o skalowaniu usług. Łączy operacje, logistykę, sprzedaż, obsługę klienta,
+                technologię i bardzo konkretną odpowiedzialność za jakość.
+              </p>
+            </div>
+          </li>
+        </ol>
+        <div class="carousel-dots topics__dots" id="obszaryDots" role="group" aria-label="Nawigacja obszarów"></div>
+      </div>
+    </section>
+
+    <!-- ============ PHOTOGRAPHIC BREAK ============ -->
+    <!-- Jedno zdjęcie w drugiej połowie strony (między Obszary a Praktyka) —
+         przełamuje długi, tekstowy ciąg sekcji. Naturalne, nie formalny
+         portret — placeholder do podmiany, patrz opis w alt/figcaption. -->
+    <section id="photo-break" class="section photo-break">
+      <!-- Iteracja 19 — zgłoszone jako "lewitujący, oderwany prostokąt":
+           cienka turkusowa linia u góry zszywa fotografię wizualnie z
+           sekcją Obszary nad nią (tak samo jak reszta strony łączy sekcje
+           cienkim akcentem, nie pustym odstępem), a fragment dot-patternu
+           (ten sam komponent co w Hero/Szybex/Zasady/Praktyce, róg
+           górny-lewy) częściowo wchodzi za zdjęcie, spinając je z resztą
+           visual identity strony. Bez cienia/zaokrągleń/gradientu. -->
+      <span class="photo-break__seam" aria-hidden="true"></span>
+      <figure class="photo-break__frame">
+        <span class="dot-pattern dot-pattern--light dot-pattern--corner-tr photo-break__dots" aria-hidden="true"></span>
+        <img
+          src="images/photo-break-placeholder.svg"
+          alt="Naturalne zdjęcie Michała — praca / rozmowa / zespół / wystąpienie (zdjęcie zostanie uzupełnione)"
+          width="1600"
+          height="700"
+          loading="lazy"
+        />
+      </figure>
+    </section>
+
+    <!-- ============ PRAKTYKA ============ -->
+    <!-- Iteracja 13: KAŻDY wpis ma własny, dedykowany link "Czytaj na
+         LinkedIn". Iteracja 30: wszystkie 5 wpisów mają teraz potwierdzone,
+         realne URL (podane wprost przez Michała — "Przywództwo" i "Strategia"
+         świadomie wskazują na TEN SAM post). Usunięty duplikat CTA — było
+         "Zobacz wszystkie wpisy" (odkrywało ukryte wpisy w miejscu) ORAZ
+         "Zobacz więcej na LinkedIn" (osobny link) obok siebie, ta sama
+         intencja dwa razy. Zostaje jedno: "Zobacz wszystkie wpisy na
+         LinkedIn →" → profil. -->
+    <section id="praktyka" class="section section--graphite-green praktyka on-dark">
+      <!-- Iteracja 15: ten sam motyw z rogu dolnego-lewego — spina tę część
+           strony wizualnie z Hero/Szybex/Zasady wyżej. -->
+      <span class="dot-pattern dot-pattern--dark dot-pattern--corner-bl" aria-hidden="true"></span>
+
+      <div class="container">
+        <div class="eyebrow-block reveal">
+          <p class="eyebrow">Praktyka</p>
+          <h2 class="section-title">Rzeczy, których uczę się, prowadząc firmę.</h2>
+        </div>
+
+        <ol class="praktyka__list" id="praktykaList">
+          <li class="praktyka-entry praktyka-entry--real reveal">
+            <span class="praktyka-entry__category">Przywództwo</span>
+            <h3 class="praktyka-entry__title">Firma naprawdę zaczyna rosnąć, gdy nie zależy od jednej osoby.</h3>
+            <p class="praktyka-entry__body">
+              Jeszcze kilka lat temu większość decyzji podejmowałem osobiście. W pewnym momencie
+              ten model zaczął ograniczać dalszy rozwój.
+            </p>
+            <div class="praktyka-entry__meta">
+              <a
+                href="https://www.linkedin.com/posts/micha%C5%82-wilkosz-08070479_najwa%C5%BCniejsza-rola-ceo-activity-7494477291926863872-gP8n?utm_source=share&utm_medium=member_desktop&rcm=ACoAACKD6IgBi_tPGdidimJ0x7QpPj7GTBc77B0"
+                class="praktyka-entry__cta"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Czytaj na LinkedIn
+                <svg class="arrow-icon" width="18" height="8" viewBox="0 0 18 8" fill="none" aria-hidden="true">
+                  <path d="M0 4H15M11 0.5L15 4L11 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </div>
+          </li>
+
+          <li class="praktyka-entry praktyka-entry--real reveal">
+            <span class="praktyka-entry__category">Skalowanie</span>
+            <h3 class="praktyka-entry__title">Najpierw skaluje się procesy. Później firmę.</h3>
+            <p class="praktyka-entry__body">
+              Im większa organizacja, tym ważniejsze stają się powtarzalność, odpowiedzialność
+              i standardy.
+            </p>
+            <div class="praktyka-entry__meta">
+              <span class="praktyka-entry__date">13 sierpnia 2026</span>
+              <a
+                href="https://www.linkedin.com/posts/micha%C5%82-wilkosz-08070479_kiedy-przejmujemy-now%C4%85-lokalizacj%C4%99-wiele-activity-7493628273034280960-tAMz"
+                class="praktyka-entry__cta"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Czytaj na LinkedIn
+                <svg class="arrow-icon" width="18" height="8" viewBox="0 0 18 8" fill="none" aria-hidden="true">
+                  <path d="M0 4H15M11 0.5L15 4L11 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </div>
+          </li>
+
+          <li class="praktyka-entry praktyka-entry--real reveal">
+            <span class="praktyka-entry__category">Strategia</span>
+            <h3 class="praktyka-entry__title">Im większa organizacja, tym mniej decyzji powinno zależeć od CEO.</h3>
+            <p class="praktyka-entry__body">
+              Rolą CEO nie jest uczestniczenie w każdej decyzji, tylko stworzenie organizacji,
+              która potrafi podejmować je samodzielnie.
+            </p>
+            <div class="praktyka-entry__meta">
+              <!-- Iteracja 30: ten sam URL co wpis "Przywództwo" — potwierdzone
+                   jawnie przez Michała (dwa różne posty wskazane pod tym samym
+                   linkiem), nie duplikat pomyłkowy. -->
+              <a
+                href="https://www.linkedin.com/posts/micha%C5%82-wilkosz-08070479_najwa%C5%BCniejsza-rola-ceo-activity-7494477291926863872-gP8n?utm_source=share&utm_medium=member_desktop&rcm=ACoAACKD6IgBi_tPGdidimJ0x7QpPj7GTBc77B0"
+                class="praktyka-entry__cta"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Czytaj na LinkedIn
+                <svg class="arrow-icon" width="18" height="8" viewBox="0 0 18 8" fill="none" aria-hidden="true">
+                  <path d="M0 4H15M11 0.5L15 4L11 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </div>
+          </li>
+
+          <li class="praktyka-entry praktyka-entry--real reveal">
+            <span class="praktyka-entry__category">Technologia i AI</span>
+            <h3 class="praktyka-entry__title">AI nie naprawi źle zaprojektowanego procesu.</h3>
+            <p class="praktyka-entry__body">
+              Technologia przyspiesza to, co już działa — i równie szybko przyspiesza chaos.
+            </p>
+            <div class="praktyka-entry__meta">
+              <span class="praktyka-entry__date">28 lipca 2026</span>
+              <a
+                href="https://www.linkedin.com/posts/micha%C5%82-wilkosz-08070479_ai-nie-jest-dzi%C5%9B-przewag%C4%85-konkurencyjn%C4%85-activity-7497230477548978176-n1RM?utm_source=share&utm_medium=member_desktop&rcm=ACoAACKD6IgBi_tPGdidimJ0x7QpPj7GTBc77B0"
+                class="praktyka-entry__cta"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Czytaj na LinkedIn
+                <svg class="arrow-icon" width="18" height="8" viewBox="0 0 18 8" fill="none" aria-hidden="true">
+                  <path d="M0 4H15M11 0.5L15 4L11 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </div>
+          </li>
+
+          <li class="praktyka-entry praktyka-entry--real reveal">
+            <span class="praktyka-entry__category">Motoryzacja</span>
+            <h3 class="praktyka-entry__title">Najlepszy proces to taki, którego Klient nie musi zauważać.</h3>
+            <p class="praktyka-entry__body">
+              Z perspektywy Klienta liczy się efekt. Cała reszta powinna po prostu działać.
+            </p>
+            <div class="praktyka-entry__meta">
+              <a
+                href="https://www.linkedin.com/posts/micha%C5%82-wilkosz-08070479_po-pierwszym-kwartale-firmy-widz%C4%85-co-dzia%C5%82a-activity-7457466234255794176-n4yA?utm_source=share&utm_medium=member_desktop&rcm=ACoAACKD6IgBi_tPGdidimJ0x7QpPj7GTBc77B0"
+                class="praktyka-entry__cta"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Czytaj na LinkedIn
+                <svg class="arrow-icon" width="18" height="8" viewBox="0 0 18 8" fill="none" aria-hidden="true">
+                  <path d="M0 4H15M11 0.5L15 4L11 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </a>
+            </div>
+          </li>
+        </ol>
+        <div class="carousel-dots praktyka__dots" id="praktykaDots" role="group" aria-label="Nawigacja publikacji"></div>
+
+        <div class="praktyka__footer reveal">
+          <a
+            href="https://www.linkedin.com/in/micha%C5%82-wilkosz-08070479/recent-activity/all/"
+            class="btn btn--outline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Zobacz wszystkie wpisy na LinkedIn
+            <svg class="arrow-icon" width="18" height="8" viewBox="0 0 18 8" fill="none" aria-hidden="true">
+              <path d="M0 4H15M11 0.5L15 4L11 7.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NEWSLETTER ============ -->
+    <!-- Iteracja 25: sekcja przełączona z dark gradient na LIGHT
+         (--section--paper, ciepły off-white, dokładnie ten sam token co
+         About/Obszary/Kontakt-dawny) — świadomy kontrast z ciemną Praktyką
+         nad nią. Editorial two-column (desktop): lewo = intro, prawo =
+         formularz, mirror istniejącego .contact__grid poniżej. -->
+    <section id="newsletter" class="section section--paper newsletter">
+      <span class="dot-pattern dot-pattern--light dot-pattern--corner-tr newsletter__dots" aria-hidden="true"></span>
+      <div class="container newsletter__grid">
+        <div class="newsletter__intro reveal">
+          <span class="newsletter__line" aria-hidden="true"></span>
+          <p class="eyebrow">Newsletter</p>
+          <h2 class="newsletter__headline">
+            Notatki z prowadzenia i skalowania firmy.
+          </h2>
+          <p class="newsletter__sub">
+            Piszę o zarządzaniu, procesach, technologii i decyzjach, które pojawiają się
+            podczas budowania organizacji.
+          </p>
+        </div>
+
+        <div class="newsletter__form-wrap reveal">
+          <form id="newsletterForm" class="form" data-form="newsletter" data-state="idle" action="#" method="post">
+            <div class="hp-field" aria-hidden="true">
+              <label for="nlCompany">Firma (nie wypełniaj tego pola)</label>
+              <input type="text" id="nlCompany" name="company" tabindex="-1" autocomplete="off" />
+            </div>
+
+            <div class="form-fields">
+              <div class="form-row form-row--inline">
+                <div class="field" style="flex: 1; margin-bottom: 0;">
+                  <label for="nlEmail" class="sr-only">Twój adres e-mail</label>
+                  <input
+                    type="email"
+                    id="nlEmail"
+                    name="email"
+                    placeholder="Twój adres e-mail"
+                    required
+                    autocomplete="email"
+                  />
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn btn--primary btn--block">Dołącz do newslettera</button>
+                </div>
+              </div>
+
+              <div class="field field--checkbox" style="margin-top: var(--sp-3);">
+                <input type="checkbox" id="nlConsent" name="consent" required />
+                <label for="nlConsent">
+                  Zgadzam się na przetwarzanie moich danych w celu wysyłki newslettera, zgodnie
+                  z <a href="polityka-prywatnosci.html" class="btn--text">Polityką Prywatności</a>.
+                </label>
+              </div>
+
+              <p class="form-note form-note--accent">Bez spamu. Możesz zrezygnować w każdej chwili.</p>
+            </div>
+
+            <div class="form-status form-status--success" role="status">
+              <h3>Dziękuję za zapis.</h3>
+              <p>Od czasu do czasu wyślę Ci coś wartego przeczytania — bez spamu i bez zbędnego hałasu.</p>
+            </div>
+            <div class="form-status form-status--error" role="alert">
+              <p>Coś poszło nie tak — spróbuj ponownie za chwilę.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ KONTAKT ============ -->
+    <!-- Iteracja 12: dwie wcześniejsze końcowe sekcje CTA (Konsultacje +
+         Kontakt) połączone w JEDEN finalny blok — usunięty duplikat tej
+         samej intencji ("ważna decyzja biznesowa" / "konkretne wyzwanie")
+         w dwóch osobnych sekcjach. Formularz uproszczony: bez pól
+         Stanowisko i Temat rozmowy (konsultacja jako osobna ścieżka
+         zniknęła razem z sekcją Konsultacje). -->
+    <section id="kontakt" class="section section--paper-dim">
+      <span class="dot-pattern dot-pattern--light dot-pattern--corner-br contact__dots" aria-hidden="true"></span>
+      <div class="container contact__grid">
+        <div class="contact__intro reveal">
+          <span class="contact__line" aria-hidden="true"></span>
+          <p class="eyebrow">Kontakt</p>
+          <h2 class="section-title">Masz przed sobą ważną decyzję biznesową?</h2>
+          <p class="body-copy" style="margin-top: var(--sp-2);">
+            Jeśli skalujesz firmę, porządkujesz organizację albo stoisz przed decyzją, która
+            może zmienić kierunek biznesu — porozmawiajmy.
+          </p>
+        </div>
+
+        <form id="contactForm" class="form reveal" data-form="contact" data-state="idle" action="#" method="post">
+          <div class="hp-field" aria-hidden="true">
+            <label for="ctWebsite">Strona WWW (nie wypełniaj tego pola)</label>
+            <input type="text" id="ctWebsite" name="website" tabindex="-1" autocomplete="off" />
+          </div>
+
+          <div class="form-fields">
+            <div class="form-fields--pair">
+              <div class="field">
+                <label for="contactName">Imię i nazwisko</label>
+                <input
+                  type="text"
+                  id="contactName"
+                  name="name"
+                  required
+                  autocomplete="name"
+                />
+              </div>
+              <div class="field">
+                <label for="contactEmail">E-mail</label>
+                <input
+                  type="email"
+                  id="contactEmail"
+                  name="email"
+                  placeholder="Twój adres e-mail"
+                  required
+                  autocomplete="email"
+                />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="contactCompany">Firma</label>
+              <input
+                type="text"
+                id="contactCompany"
+                name="company"
+                placeholder="Nazwa firmy"
+                autocomplete="organization"
+              />
+            </div>
+
+            <div class="field">
+              <label for="contactMessage">Temat konsultacji</label>
+              <textarea
+                id="contactMessage"
+                name="message"
+                placeholder="Krótko opisz temat rozmowy."
+                required
+              ></textarea>
+            </div>
+
+            <div class="field field--checkbox">
+              <input type="checkbox" id="contactConsent" name="consent" required />
+              <label for="contactConsent">
+                Wyrażam zgodę na przetwarzanie moich danych osobowych w celu udzielenia
+                odpowiedzi na zapytanie, zgodnie z
+                <a href="polityka-prywatnosci.html" class="btn--text">Polityką Prywatności</a>. *
+              </label>
+            </div>
+
+            <div class="form-actions">
+              <button type="submit" class="btn btn--primary" data-submitting-label="Wysyłanie…">Wyślij wiadomość</button>
+              <p class="form-note form-note--accent">Odpowiem osobiście.</p>
+            </div>
+          </div>
+
+          <div class="form-status form-status--success" role="status">
+            <h3>Dziękuję za wiadomość. Odpowiem osobiście tak szybko, jak to możliwe.</h3>
+          </div>
+          <div class="form-status form-status--error" role="alert">
+            <p>Nie udało się wysłać wiadomości. Spróbuj ponownie za chwilę.</p>
+          </div>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="section--ink-green site-footer on-dark">
+    <span class="dot-pattern dot-pattern--dark dot-pattern--corner-bl" aria-hidden="true"></span>
+    <div class="container">
+      <div class="site-footer__top">
+        <div>
+          <p class="site-footer__name">
+            <span class="wordmark__name">Michał</span><span class="wordmark__surname">Wilkosz</span><span class="wordmark__dot">.</span>
+          </p>
+          <p class="site-footer__role">CEO Szybex</p>
+        </div>
+
+        <nav class="site-footer__links" aria-label="Nawigacja w stopce">
+          <a href="https://www.linkedin.com/in/micha%C5%82-wilkosz-08070479/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="#kontakt">Kontakt</a>
+          <a href="#newsletter">Newsletter</a>
+          <a href="polityka-prywatnosci.html">Polityka prywatności</a>
+          <a href="cookies.html">Cookies</a>
+        </nav>
+      </div>
+
+      <p class="site-footer__bottom">© <span id="footerYear">2026</span> Michał Wilkosz</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>

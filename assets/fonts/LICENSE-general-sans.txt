@@ -1,0 +1,9 @@
+Font: General Sans
+Źródło: Fontshare (https://www.fontshare.com/fonts/general-sans)
+Licencja: ITF Free Font License — wolne w użyciu osobistym i komercyjnym,
+dozwolony self-hosting plików czcionki na własnym serwerze.
+Pełna treść licencji: https://www.fontshare.com/licenses/itf-ffl
+
+Pliki w tym katalogu (general-sans-400/500/600/700.woff2) zostały pobrane
+bezpośrednio z CDN Fontshare i są self-hostowane w ramach tego projektu,
+zgodnie z powyższą licencją — brak zależności od zewnętrznego CDN w runtime.

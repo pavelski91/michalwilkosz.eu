@@ -1,0 +1,3100 @@
+/* ==========================================================================
+   MICHAŁ WILKOSZ — michalwilkosz.eu
+   Stylesheet: css/style.css
+   Struktura pliku:
+     1. Font-face (self-hosted General Sans)
+     2. Reset / base
+     3. Design tokens (custom properties)
+     4. Typografia
+     5. Layout utilities
+     6. Dot pattern + gradient utilities
+     7. Komponenty: buttons, forms, badges
+     8. Header / nawigacja (desktop + mobile overlay)
+     9. Sekcje (hero → footer)
+     10. Reveal / motion
+     11. Media queries (responsive)
+     12. Reduced motion / accessibility
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. FONT-FACE — self-hosted, brak zależności od CDN (Fontshare, ITF Free
+   Font License — wolne w użyciu komercyjnym i do self-hostingu)
+   -------------------------------------------------------------------------- */
+@font-face {
+  font-family: "General Sans";
+  src: url("../assets/fonts/general-sans-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("../assets/fonts/general-sans-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("../assets/fonts/general-sans-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "General Sans";
+  src: url("../assets/fonts/general-sans-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* --------------------------------------------------------------------------
+   2. RESET / BASE
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  background: var(--paper);
+  color: var(--ink);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+img,
+svg {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure {
+  margin: 0;
+}
+
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   3. DESIGN TOKENS
+   -------------------------------------------------------------------------- */
+:root {
+  /* Kolor — dokładny system marki (nie zmieniać / nie tworzyć nowych zieleni) */
+  --ink: #0a0d0c;
+  --ink-green: #03241d; /* najgłębsza zieleń systemu — koniec gradientów, footer */
+  --graphite: #161b19;
+  --graphite-soft: #1e2523;
+  --graphite-neutral: #323333; /* neutralny grafit — start tła sekcji PRAKTYKA */
+  --paper: #f7f6f2;
+  --paper-dim: #edebe4;
+  --paper-muted: #9aa6a1; /* tekst pomocniczy na ciemnym tle — AA 7.7:1 */
+  --ink-muted: #474d4a; /* tekst pomocniczy na jasnym tle — AA 8:1 */
+  --teal: #00ad8b; /* jasny akcent brandu — tekst/detale na ciemnym tle — AA 6.8:1 */
+  --teal-ink: #016752; /* tekst-safe zieleń na jasnym tle — AA 6.4:1 */
+  --green-700: #008f72; /* CTA — tło primary */
+  --green-800: #016752; /* CTA — hover primary */
+  --green-900: #014739;
+  --line-on-light: rgba(10, 13, 12, 0.12);
+  --line-on-dark: rgba(247, 246, 242, 0.14);
+  --scrim-dark: rgba(6, 8, 7, 0.5);
+
+  --gradient-signature: linear-gradient(
+    110deg,
+    #00ad8b 0%,
+    #008f72 30%,
+    #016752 58%,
+    #014739 78%,
+    #03241d 100%
+  );
+
+  /* Typografia
+     ==========================================================================
+     JEDEN SYSTEM — poziomy, do których odnosi się każdy nagłówek/tekst na
+     stronie (jedna rodzina fontu wszędzie, waga 600 dla wszystkich
+     headline'ów, 500 dla eyebrow/meta/CTA, 400 dla body):
+
+       Display / Hero   --fs-hero-statement   40–60px desktop, 35–44px mobile
+       H2 (sekcja)       --fs-h2               44–58px desktop, 32–40px mobile
+                                                (per-headline mobile clamp,
+                                                 tunowany empirycznie żeby
+                                                 uniknąć sierot/złego łamania —
+                                                 patrz h2.section-title,
+                                                 .principles__title,
+                                                 #praktyka h2.section-title —
+                                                 wszystkie w tym samym
+                                                 32–40px paśmie, nie identyczne
+                                                 krzywe, bo różne długości
+                                                 tekstu)
+       H3                --fs-h3 / --fs-principle  28–36px desktop, 23–28px mobile
+       Body Large        --fs-body-lg          18px desktop, 16px mobile (Manifest —
+                                                jedyne świadome użycie; "lede"
+                                                wyłącznie tego typu editorial-intro,
+                                                nie zwykły opis)
+       Body Standard     --body-mobile/--fs-body 16px desktop, 14px mobile — Hero
+                                                (własny wyjątek, patrz .hero__body),
+                                                O mnie, Szybex, Zasady, Obszary,
+                                                Publikacje, Newsletter, Kontakt
+       Body Small / Meta --fs-small            13px desktop, 12px mobile — labels/
+                                                eyebrow-adjacent/meta/category, NIE
+                                                zwykłe akapity
+       Eyebrow           --fs-eyebrow          12–13px, uppercase, letter-spacing .14em
+       CTA / Button      var(--fs-body), 500   16px, waga 500 (osobno od Body
+                                                Standard — patrz --body-mobile)
+
+     Iteracja 22 — GLOBAL BODY SYSTEM: --fs-body-lg/--fs-small/--body-line
+     redefiniowane globalnie na mobile (jeden `@media` blok tuż pod :root,
+     patrz niżej) — WSZYSTKIE sekcje z powyższej listy dziedziczą tę samą
+     mobile/desktop parę automatycznie, bez punktowego nadpisywania w
+     każdej sekcji osobno. --fs-body celowo NIE jest częścią tej globalnej
+     redefinicji (używają go też buttony) — sekcje body-copy dostają
+     zamiast tego jawny `font-size:var(--body-mobile)` w swoim mobile
+     override.
+
+     Zasada: nowe nagłówki/teksty MUSZĄ użyć jednego z powyższych tokenów
+     (lub mobile-scoped clamp w tym samym paśmie), nie wymyślać nowego
+     rozmiaru/wagi/rodziny fontu. */
+  --font-display: "General Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif;
+  --font-body: "General Sans", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Helvetica, Arial, sans-serif;
+
+  /* Nie czyste vw: kolumna tekstu w Hero jest ograniczona przez
+     --container-max (1320px), więc powyżej ok. 1320px viewport kolumna już
+     nie rośnie — czysty vw-clamp rósłby dalej i łamałby "max 3 linie".
+     rem-offset + mały vw trzyma font w wąskim paśmie 44–60px, dopasowanym
+     empirycznie (patrz QA) do realnej szerokości kolumny w całym zakresie
+     desktop (900–1920px). */
+  --fs-hero-statement: clamp(2.5rem, 1.2rem + 2.6vw, 3.75rem); /* ~40–60px */
+  --fs-h2: clamp(2.75rem, 3.8vw, 3.625rem); /* 44–58px */
+  --fs-h3: clamp(1.75rem, 2.2vw, 2.125rem); /* 28–34px */
+  --fs-manifest: clamp(1.9rem, 4vw, 3.1rem);
+  /* Iteracja 7: H3 (principle statements) renderowało się niemal identycznie
+     jak H2 sekcji (oba ~54px na typowych szerokościach desktop — 4.6vw
+     rosło szybciej niż zamierzano) — zła hierarchia. Zawężone do docelowych
+     30–36px desktop (mobile override w sekcji principles, patrz niżej,
+     zostaje na 24–28px). */
+  --fs-principle: clamp(1.875rem, 2.2vw, 2.25rem); /* 30–36px */
+
+  /* Iteracja 22 — GLOBAL BODY SYSTEM. Poprzednio każda sekcja miała
+     własny, przypadkowy rozmiar/line-height/mobile-override (albo brak
+     override w ogóle — .topic p i .szybex__intro renderowały 16px/1.6
+     nawet na mobile, podczas gdy .hero__body/.praktyka-entry__body/
+     .newsletter__sub miały każdy INNĄ wartość mobile: 14.5/15/15px).
+     Trzy poziomy (BODY LARGE / BODY STANDARD / BODY SMALL), każdy z
+     jawną parą mobile/desktop — używane identycznie we WSZYSTKICH
+     sekcjach z listy w brief (Hero — wyjątek, patrz .hero__body, O mnie,
+     Szybex, Zasady, Obszary, Publikacje, Newsletter, Kontakt). */
+  --body-lg-desktop: 1.125rem; /* 18px — górna granica żądanego 17–18px */
+  --body-lg-mobile: 1rem; /* 16px — górna granica żądanego 15–16px */
+  --body-sm-desktop: 0.8125rem; /* 13px — górna granica żądanego 12–13px */
+  --body-sm-mobile: 0.75rem; /* 12px — górna granica żądanego 11–12px */
+  --body-line-desktop: 1.6; /* środek żądanego 1.55–1.65 */
+  --body-line-mobile: 1.52; /* środek żądanego 1.5–1.55 */
+
+  --fs-body-lg: var(--body-lg-desktop);
+  --fs-small: var(--body-sm-desktop);
+  --fs-eyebrow: clamp(0.75rem, 0.8vw, 0.8125rem); /* 12–13px — nietknięte, osobny token */
+
+  /* BODY STANDARD — główny tekst opisowy całej strony (Hero — patrz
+     wyjątek niżej, O mnie, Szybex, Zasady, Obszary, Publikacje,
+     Newsletter, Kontakt). --body-mobile to NOWY token (--fs-body zostaje
+     nietknięty jako ogólny "16px" używany też przez buttony — rozdzielone
+     świadomie, żeby zmiana body-copy nie ruszała przypadkiem CTA). */
+  --body-mobile: 0.875rem; /* 14px */
+  --body-size: 1rem; /* 16px */
+  --body-line: var(--body-line-desktop);
+  --fs-body: var(--body-size);
+
+  /* Spacing (bazowa skala 8px) */
+  --sp-1: 0.5rem;
+  --sp-2: 1rem;
+  --sp-3: 1.5rem;
+  --sp-4: 2rem;
+  --sp-6: 3rem;
+  --sp-8: 4rem;
+  --sp-12: 6rem;
+  --sp-16: 8rem;
+  --sp-20: 10rem;
+
+  /* Layout — jeden gutter dla całej strony (wyjątek: świadome full-bleed).
+     Floor 24px: na 375–430px 5vw daje 18.75–21.5px, więc bez floor gutter
+     byłby węższy niż wymagane minimum 24px. */
+  --container-max: 1320px;
+  --container-pad: clamp(24px, 5vw, 80px);
+  --radius: 4px;
+
+  /* Mobile spacing system — jeden zestaw tokenów zamiast punktowego strojenia
+     "sekcja po sekcji na chybił trafił". Sekcje: standard dla większości,
+     -lg dla mocnych statement-sekcji (obecnie żadna tego nie potrzebuje —
+     zarezerwowane), -sm dla lekkich utility-sekcji (LinkedIn, Manifest).
+     Content-gap: rytm wewnątrz sekcji (nagłówek→body, body→CTA itd.). */
+  --section-space-mobile: 4rem; /* 64px */
+  --section-space-mobile-lg: 4.5rem; /* 72px */
+  --section-space-mobile-sm: 3.25rem; /* 52px */
+  --content-gap-xs: 12px;
+  --content-gap-sm: 20px;
+  --content-gap-md: 32px;
+  --content-gap-lg: 56px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-fast: 180ms;
+  --dur-normal: 320ms;
+}
+
+/* Iteracja 22 — mobile redefinicja tokenów GLOBAL BODY SYSTEM (osobny,
+   płaski blok — NIE zagnieżdżony @media wewnątrz :root, żeby zostać przy
+   konwencji reszty pliku, gdzie wszystkie @media są top-level). Wszystkie
+   trzy tokeny (--fs-body-lg/--fs-small/--body-line) audytowane: używane
+   WYŁĄCZNIE w kontekstach body-copy/meta-label (nie w buttonach/CTA), więc
+   bezpieczne do jednej, globalnej redefinicji zamiast per-selektor
+   duplikowania override'u w każdym miejscu użycia. */
+@media (max-width: 767px) {
+  :root {
+    --fs-body-lg: var(--body-lg-mobile);
+    --fs-small: var(--body-sm-mobile);
+    --body-line: var(--body-line-mobile);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   4. TYPOGRAFIA
+   -------------------------------------------------------------------------- */
+.eyebrow {
+  display: inline-block;
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--teal-ink);
+  margin-bottom: var(--sp-2);
+}
+
+.on-dark .eyebrow {
+  color: var(--teal);
+}
+
+h2.section-title {
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  line-height: 1.08;
+}
+
+/* Mobile audit — --fs-h2 ma floor 44px (dobrany pod desktop), powyżej
+   docelowego zakresu mobile 32–38px z audytu; dawało to 5 linii na About/
+   Szybex/Kontakt. .newsletter__headline to OSOBNA klasa (nie ruszana — sekcja
+   ma zostać jak jest), więc to zawężenie jej nie dotyczy. */
+@media (max-width: 767px) {
+  h2.section-title {
+    font-size: clamp(2rem, 8vw, 2.375rem);
+    line-height: 1.05;
+  }
+}
+
+/* Iteracja 7 — nagłówek Szybex ma twardy <br> po "zarządzaniu" + nbsp w
+   "w Szybex" (patrz HTML), więc kontrolujemy TYLKO żeby żaden z dwóch
+   segmentów sam się nie złamał na kolejną linię. Zmierzone: przy współdzielonym
+   mobile-h2 (32–38px) segment "Najwięcej o zarządzaniu" łamał się na 2 linie
+   (4 linie total). 29px, zweryfikowane na 375/390/430px, trzyma dokładnie
+   2 linie wszędzie — scoped tylko do tego nagłówka (h2.section-title
+   zostaje nietknięty dla innych sekcji). */
+@media (max-width: 767px) {
+  h2.szybex__headline {
+    font-size: 29px;
+  }
+}
+
+.lede {
+  font-size: var(--fs-body-lg);
+  line-height: 1.6;
+  color: var(--ink-muted);
+  max-width: 42ch;
+}
+
+.on-dark .lede {
+  color: var(--paper-muted);
+}
+
+/* Unifikowany "zwykły" body copy — używany zamiast .lede tam, gdzie sekcja
+   ma wyglądać spójnie z resztą strony (Hero, O mnie, Szybex, Praktyka,
+   LinkedIn, Kontakt). .lede zostaje tam, gdzie celowo chcemy większy,
+   bardziej "lede"-owy akcent (Consultation, Newsletter — nie ruszane). */
+.body-copy {
+  font-size: var(--fs-body);
+  line-height: var(--body-line);
+  color: var(--ink-muted);
+  max-width: 640px;
+}
+
+.on-dark .body-copy {
+  color: var(--paper-muted);
+}
+
+.body-copy p + p {
+  margin-top: 1.1em;
+}
+
+/* Iteracja 22 — BODY STANDARD (brak mobile override — jedyny obecny
+   caller, intro Kontaktu, renderował 16px na mobile jak reszta "przed"
+   listy z audytu). */
+@media (max-width: 767px) {
+  .body-copy {
+    font-size: var(--body-mobile);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   5. LAYOUT UTILITIES
+   -------------------------------------------------------------------------- */
+.container {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+}
+
+.section {
+  padding-block: var(--sp-16);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Iteracja 6 — 128px (i sekcyjne warianty do 160px: Praktyka/Newsletter)
+   między KAŻDĄ sekcją na mobile czytało się jak brakujący content, nie jak
+   rytm. Zbite do 64–72px na całym mobile, Hero wyłączony (:not(.hero) daje
+   wyższą specyficzność niż .hero, więc wygrywa niezależnie od kolejności
+   źródłowej) — Hero ma celowo zostać bardziej przestronny. */
+@media (max-width: 767px) {
+  .section:not(.hero) {
+    padding-block: var(--section-space-mobile);
+  }
+}
+
+.section--paper {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.section--paper-dim {
+  background: var(--paper-dim);
+  color: var(--ink);
+}
+
+.section--dark {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Charcoal grey płaski — dodatkowy dark tone (referencja z postów LinkedIn:
+   grafit, nie czysta czerń). Token --graphite-neutral już istniał (był
+   tylko startem gradientu w Praktyce) — tu użyty samodzielnie, płasko. */
+.section--charcoal {
+  background: var(--graphite-neutral);
+  color: var(--paper);
+}
+
+/* Dark green — Szybex/Experience: głębia zieleni, bez czystej czerni */
+.section--green-deep {
+  background: linear-gradient(135deg, var(--green-900) 0%, var(--ink-green) 100%);
+  color: var(--paper);
+}
+
+/* Graphite + deep green — Praktyka: neutralny grafit przechodzący w zieleń */
+.section--graphite-green {
+  background: linear-gradient(135deg, var(--graphite-neutral) 0%, var(--ink-green) 100%);
+  color: var(--paper);
+}
+
+/* Flat deep green — Footer: spokojne domknięcie kompozycji */
+.section--ink-green {
+  background: var(--ink-green);
+  color: var(--paper);
+}
+
+/* Iteracja 25 — .section--gradient (dawny dark/animowany background
+   Newslettera) usunięty w całości: był to JEDYNY caller tej klasy w
+   HTML (zweryfikowane grepem), sekcja przełączona na .section--paper
+   (light, patrz niżej), więc reguła stała się martwym kodem. */
+
+.grid-2 {
+  display: grid;
+  gap: var(--sp-8);
+}
+
+@media (min-width: 900px) {
+  .grid-2 {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+  .grid-2--reverse {
+    direction: rtl;
+  }
+  .grid-2--reverse > * {
+    direction: ltr;
+  }
+}
+
+.eyebrow-block {
+  margin-bottom: var(--sp-6);
+}
+
+/* --------------------------------------------------------------------------
+   6. DOT PATTERN + GRADIENT DECORATION
+   -------------------------------------------------------------------------- */
+/* Iteracja 14 — "dot pattern jest praktycznie niewidoczny" (1.1px kropka,
+   opacity 0.1–0.16, maska ucinająca 75% obszaru) — zbyt subtelne, żeby
+   realnie nawiązywać do materiałów social media. Powiększone i podniesiona
+   opacity, maska rozszerzona, żeby siatka kropek była faktycznie
+   rozpoznawalna, nie tylko teoretycznie obecna w DOM. */
+.dot-pattern {
+  position: absolute;
+  background-image: radial-gradient(circle, currentColor 1.7px, transparent 2px);
+  background-size: 22px 22px;
+  pointer-events: none;
+}
+
+.dot-pattern--light {
+  color: rgba(0, 173, 139, 0.28);
+}
+
+.dot-pattern--dark {
+  color: rgba(0, 173, 139, 0.22);
+}
+
+.dot-pattern--corner-tr {
+  top: 0;
+  right: 0;
+  width: min(52vw, 560px);
+  height: min(52vw, 560px);
+  -webkit-mask-image: radial-gradient(circle at 100% 0%, #000 62%, transparent 92%);
+  mask-image: radial-gradient(circle at 100% 0%, #000 62%, transparent 92%);
+  animation: dot-drift 24s ease-in-out infinite;
+}
+
+.dot-pattern--corner-bl {
+  bottom: 0;
+  left: 0;
+  width: min(46vw, 480px);
+  height: min(46vw, 480px);
+  -webkit-mask-image: radial-gradient(circle at 0% 100%, #000 62%, transparent 92%);
+  mask-image: radial-gradient(circle at 0% 100%, #000 62%, transparent 92%);
+  animation: dot-drift 30s ease-in-out infinite reverse;
+}
+
+/* Iteracja 15 — czwarty wariant maski (ten sam skalowanie/spacing/opacity co
+   --corner-tr/--corner-bl, tylko inny róg), żeby ten sam motyw kropek dało
+   się powtórzyć w Hero bez identycznego kadru co w Szybex/Footer. */
+.dot-pattern--corner-br {
+  bottom: 0;
+  right: 0;
+  width: min(48vw, 520px);
+  height: min(48vw, 520px);
+  -webkit-mask-image: radial-gradient(circle at 100% 100%, #000 62%, transparent 92%);
+  mask-image: radial-gradient(circle at 100% 100%, #000 62%, transparent 92%);
+  animation: dot-drift 27s ease-in-out infinite;
+}
+
+@keyframes dot-drift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(6px, 4px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   7. KOMPONENTY
+   -------------------------------------------------------------------------- */
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  padding: 0.95em 1.9em;
+  font-size: var(--fs-body);
+  font-weight: 500;
+  border-radius: var(--radius);
+  border: 1px solid transparent;
+  transition: transform var(--dur-fast) var(--ease-out),
+    background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
+}
+
+.btn:hover,
+.btn:focus-visible {
+  transform: translateY(-1px);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.btn--primary {
+  background: var(--green-700);
+  color: var(--paper);
+  border-color: transparent;
+}
+
+.btn--primary:hover,
+.btn--primary:focus-visible {
+  background: var(--green-800);
+}
+
+.btn--outline {
+  background: transparent;
+  border-color: currentColor;
+}
+
+.on-dark .btn--outline {
+  border-color: var(--teal);
+  color: var(--paper);
+}
+
+.on-dark .btn--outline:hover {
+  background: rgba(0, 173, 139, 0.12);
+}
+
+.section--paper .btn--outline,
+.section--paper-dim .btn--outline {
+  border-color: var(--teal-ink);
+  color: var(--ink);
+}
+
+.section--paper .btn--outline:hover,
+.section--paper-dim .btn--outline:hover {
+  background: rgba(11, 122, 107, 0.08);
+}
+
+.btn--ghost {
+  background: transparent;
+  border-color: var(--line-on-dark);
+  color: inherit;
+}
+
+.section--paper .btn--ghost,
+.section--paper-dim .btn--ghost {
+  border-color: var(--line-on-light);
+}
+
+.btn--ghost:hover {
+  border-color: var(--teal);
+}
+
+.btn--text {
+  padding: 0;
+  border: none;
+  font-weight: 500;
+  color: var(--teal-ink);
+  border-bottom: 1px solid transparent;
+}
+
+.on-dark .btn--text {
+  color: var(--teal);
+}
+
+.btn--text:hover,
+.btn--text:focus-visible {
+  border-bottom-color: currentColor;
+  transform: none;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Mobile audit — tap targets: min. wysokość 50px na wszystkich buttonach
+   (primary i secondary — jeden, spójny system), z wyjątkiem kompaktowego CTA
+   w headerze (tam 50px rozdmuchałoby header — 40px to rozsądny kompromis,
+   wciąż > minimalny próg dotykowy; header ma zostać "compact"). */
+@media (max-width: 767px) {
+  .btn {
+    min-height: 50px;
+  }
+  .btn--compact {
+    min-height: 40px;
+  }
+}
+
+/* Badge (np. "część Cary Group") */
+.badge {
+  display: inline-block;
+  font-size: var(--fs-small);
+  color: var(--ink-muted);
+  padding: 0.3em 0.8em;
+  border: 1px solid var(--line-on-light);
+  border-radius: 999px;
+}
+
+.on-dark .badge {
+  color: var(--paper-muted);
+  border-color: var(--line-on-dark);
+}
+
+/* Disclosure "Czytaj więcej" / "Zwiń" — JEDEN mechanizm reużywany w „O mnie”
+   i Szybex (patrz initDisclosure() w js/main.js). Prosty editorial toggle,
+   nie accordion-UI: button + treść, height/opacity transition. */
+.disclosure__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  margin-top: var(--sp-4);
+  font-size: var(--fs-small);
+  font-weight: 500;
+  color: var(--teal-ink);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.on-dark .disclosure__toggle {
+  color: var(--teal);
+}
+
+.disclosure__toggle:hover,
+.disclosure__toggle:focus-visible {
+  border-bottom-color: currentColor;
+}
+
+.disclosure__icon {
+  display: inline-block;
+  transition: transform var(--dur-normal) var(--ease-out);
+}
+
+.disclosure__toggle[aria-expanded="true"] .disclosure__icon {
+  transform: rotate(180deg);
+}
+
+.disclosure__content {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 420ms var(--ease-out), opacity 320ms var(--ease-out);
+}
+
+.disclosure__content.is-open {
+  opacity: 1;
+}
+
+.disclosure__content p {
+  margin-top: var(--sp-4);
+  max-width: 640px;
+  font-size: var(--fs-body);
+  line-height: var(--body-line);
+  color: var(--ink-muted);
+}
+
+.on-dark .disclosure__content p {
+  color: var(--paper-muted);
+}
+
+.disclosure__content p + p {
+  margin-top: 1.1em;
+}
+
+/* Forms */
+.field {
+  margin-bottom: var(--sp-3);
+}
+
+.field label {
+  display: block;
+  font-size: var(--fs-small);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+.field input[type="text"],
+.field input[type="email"],
+.field select,
+.field textarea {
+  width: 100%;
+  min-height: 52px;
+  padding: 14px 16px;
+  background: transparent;
+  border: 1px solid var(--line-on-light);
+  border-radius: var(--radius);
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+.on-dark .field input,
+.on-dark .field select,
+.on-dark .field textarea {
+  border-color: var(--line-on-dark);
+  color: var(--paper);
+}
+
+.field input:focus-visible,
+.field select:focus-visible,
+.field textarea:focus-visible {
+  outline: none;
+  border-color: var(--teal);
+}
+
+/* Iteracja 25 — 120px→100px (środek żądanego 90–110px). Jedyny caller to
+   textarea Kontaktu (zweryfikowane grepem) — bezpieczne do zmiany
+   bezpośrednio bez scopowania. */
+.field textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+.field--checkbox {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 12px;
+  align-items: start;
+}
+
+/* Iteracja 25 — custom-styled checkbox (nie samo accent-color, które nie
+   daje pełnej kontroli nad unchecked border/checked fill z briefu).
+   Jeden, współdzielony komponent dla Newslettera i Kontaktu (oba używają
+   .field--checkbox) — "ta sama geometria/border/checked state", nie dwa
+   osobne systemy. Checkmark rysowany czystym CSS (border-trick, bez SVG/
+   ikony) — unchecked: jasne tło + turkusowa ramka; checked: wypełnienie
+   turkusowe + biały check. */
+.field--checkbox input {
+  appearance: none;
+  -webkit-appearance: none;
+  margin-top: 0.2rem;
+  width: 20px;
+  height: 20px;
+  border: 1.5px solid var(--teal-ink);
+  border-radius: 4px;
+  background: var(--paper);
+  flex-shrink: 0;
+  position: relative;
+  cursor: pointer;
+  transition: background-color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+
+.on-dark .field--checkbox input {
+  border-color: var(--teal);
+  background: transparent;
+}
+
+.field--checkbox input:checked {
+  background: var(--teal-ink);
+  border-color: var(--teal-ink);
+}
+
+.on-dark .field--checkbox input:checked {
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.field--checkbox input:checked::after {
+  content: "";
+  position: absolute;
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--paper);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.field--checkbox input:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+}
+
+.field--checkbox label {
+  font-size: var(--fs-small);
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--ink-muted);
+}
+
+.on-dark .field--checkbox label {
+  color: var(--paper-muted);
+}
+
+.field-error {
+  display: none;
+  font-size: var(--fs-small);
+  color: #d8544a;
+  margin-top: 0.4rem;
+}
+
+.field.has-error input,
+.field.has-error select,
+.field.has-error textarea {
+  border-color: #d8544a;
+}
+
+.field.has-error .field-error {
+  display: block;
+}
+
+.form-note {
+  font-size: var(--fs-small);
+  color: var(--paper-muted);
+  margin-top: var(--sp-2);
+}
+
+.section--paper .form-note,
+.section--paper-dim .form-note {
+  color: var(--ink-muted);
+}
+
+/* Iteracja 25 — "trust microcopy" świadomie zaprojektowane (nie
+   przypadkowy tekst pod buttonem): krótka turkusowa linia przed tekstem,
+   ten sam komponent dla dwóch miejsc na stronie ("Bez spamu..." w
+   Newsletterze, "Odpowiem osobiście." w Kontakcie) — jedna rodzina,
+   nie dwa osobne, przypadkowe style. */
+.form-note--accent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.form-note--accent::before {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 1.5px;
+  background: var(--teal);
+  flex-shrink: 0;
+}
+
+.form-status {
+  display: none;
+  padding: var(--sp-4);
+  border: 1px solid var(--line-on-dark);
+  border-radius: var(--radius);
+}
+
+.section--paper .form-status {
+  border-color: var(--line-on-light);
+}
+
+.form[data-state="success"] .form-fields,
+.form[data-state="success"] .form-actions {
+  display: none;
+}
+
+.form[data-state="success"] .form-status--success {
+  display: block;
+}
+
+.form[data-state="error"] .form-status--error {
+  display: block;
+}
+
+/* Honeypot — ukryte pole antyspamowe, nie usuwać */
+.hp-field {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Accessibility helper */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--sp-2);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.8em 1.4em;
+  border-radius: var(--radius);
+  z-index: 1000;
+  transition: top var(--dur-fast) var(--ease-out);
+}
+
+.skip-link:focus {
+  top: var(--sp-2);
+}
+
+/* --------------------------------------------------------------------------
+   8. HEADER / NAWIGACJA
+   -------------------------------------------------------------------------- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(247, 246, 242, 0.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid transparent;
+  transition: padding var(--dur-normal) var(--ease-out),
+    border-color var(--dur-normal) var(--ease-out);
+}
+
+.site-header.is-scrolled {
+  border-bottom-color: var(--line-on-light);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  padding-block: 22px;
+  transition: padding-block var(--dur-normal) var(--ease-out);
+}
+
+/* Iteracja 20 — hero mobile compression: header (85.7px w spoczynku)
+   liczy się do budżetu pierwszego viewportu. Zmniejszone TYLKO na mobile
+   (≤767px, styl/desktop nietknięte) do ok. 58px total — środek żądanego
+   zakresu 56–60px. Stan .is-scrolled (13px, niżej) zostaje bez zmian. */
+@media (max-width: 767px) {
+  .site-header__inner {
+    padding-block: 8px;
+  }
+}
+
+/* Logo zawsze po lewej. Na desktopie .site-nav (z własnym CTA) trzyma się
+   prawej krawędzi; .site-header__actions naturalnie płynie zaraz za nim.
+   Na mobile .site-nav jest display:none, więc to .site-header__actions
+   (kompaktowe CTA + hamburger) samo przejmuje domknięcie do prawej. */
+.site-nav {
+  margin-left: auto;
+}
+
+@media (max-width: 959px) {
+  .site-header__actions {
+    margin-left: auto;
+  }
+}
+
+.site-header.is-scrolled .site-header__inner {
+  padding-block: 13px;
+}
+
+.site-header__logo {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 1.2rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* Wordmark — sygnatura personal brandu, reużywana też w stopce */
+.wordmark__name {
+  font-weight: 500;
+}
+
+.wordmark__surname {
+  font-weight: 600;
+  margin-left: 0.32em;
+}
+
+.wordmark__dot {
+  font-weight: 600;
+  color: var(--teal);
+}
+
+.site-nav {
+  display: none;
+  align-items: center;
+  gap: var(--sp-6);
+}
+
+.site-nav__list {
+  display: flex;
+  gap: var(--sp-4);
+  font-size: 0.95rem;
+}
+
+.site-nav__list a {
+  padding-block: 0.3em;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.site-nav__list a:hover,
+.site-nav__list a:focus-visible {
+  color: var(--teal-ink);
+  border-bottom-color: var(--teal-ink);
+}
+
+/* Prawa grupa akcji w headerze: kompaktowe CTA (mobile) + hamburger */
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Mobile audit — wordmark mniejszy niż desktopowe 1.2rem/19.2px, żeby
+   header "MICHAŁ WILKOSZ. | POROZMAWIAJMY | ☰" oddychał przy 24px gutterze. */
+@media (max-width: 480px) {
+  .site-header__logo {
+    font-size: 1rem;
+  }
+}
+
+/* Bardzo wąskie telefony (≤340px, np. 320px) — wordmark + CTA + hamburger
+   nie mieszczą się w kolumnie treści (272px) przy powyższych rozmiarach;
+   potwierdzone pomiarem scrollWidth > clientWidth. Dalsze, świadome ściśnięcie
+   tylko na tym wąskim paśmie, żeby nie psuć proporcji na 375–430px. */
+@media (max-width: 340px) {
+  .site-header__logo {
+    font-size: 0.8125rem;
+  }
+  .site-header__actions {
+    gap: 0.4rem;
+  }
+  .btn--compact {
+    padding: 0.5rem 0.6rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* Kompaktowe CTA "Porozmawiajmy" — zawsze widoczne na mobile, bez
+   otwierania menu. Ukryte na desktopie (tam CTA jest już w .site-nav). */
+.btn--compact {
+  padding: 0.6rem 0.85rem;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
+/* Próg podniesiony z 900 na 960px: przy 5 linkach + CTA .site-nav
+   realnie potrzebuje więcej miejsca niż 900px, inaczej nav+przycisk
+   overflow'ują poza viewport tuż nad progiem hamburgera. */
+@media (min-width: 960px) {
+  .mobile-cta {
+    display: none;
+  }
+}
+
+.menu-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+}
+
+.menu-toggle__bar {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--ink);
+  transition: transform var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+}
+
+.menu-toggle[aria-expanded="true"] .menu-toggle__bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+.menu-toggle[aria-expanded="true"] .menu-toggle__bar:nth-child(2) {
+  opacity: 0;
+}
+.menu-toggle[aria-expanded="true"] .menu-toggle__bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+.mobile-nav {
+  position: fixed;
+  inset: 0;
+  z-index: 99;
+  background: var(--ink);
+  color: var(--paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity var(--dur-normal) var(--ease-out),
+    transform var(--dur-normal) var(--ease-out), visibility var(--dur-normal);
+}
+
+.mobile-nav::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--paper) 1.1px, transparent 1.6px);
+  background-size: 24px 24px;
+  opacity: 0.06;
+}
+
+.mobile-nav[data-state="open"] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.mobile-nav__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-6);
+  text-align: center;
+}
+
+.mobile-nav__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.mobile-nav__list a {
+  font-size: clamp(1.6rem, 6vw, 2.2rem);
+  font-weight: 600;
+}
+
+@media (min-width: 960px) {
+  .site-nav {
+    display: flex;
+  }
+  .menu-toggle {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   9. SEKCJE
+   -------------------------------------------------------------------------- */
+
+/* --- Hero ---
+   Mobile-first flow + desktop grid-reorder: to jest wzorzec używany też
+   w „O mnie” i Szybex (patrz komentarz tam). Dzieci .hero__grid siedzą w
+   DOM w kolejności mobilnej (H1 → zdjęcie → body → descriptor → CTA —
+   sekcja 6/7 briefu), więc na mobile (pojedyncza kolumna) kolejność jest
+   poprawna bez żadnego CSS. Od 900px .hero__grid staje się prawdziwym
+   2-kolumnowym gridem (tekst | zdjęcie) — dzieci dostają jawne
+   grid-column/grid-row, żeby złożyć się w JEDNĄ kompozycję, bez
+   przyklejania zdjęcia do krawędzi viewportu i bez pustego gapu. */
+.hero {
+  background: radial-gradient(circle at 78% 38%, rgba(0, 173, 139, 0.16), transparent 38%),
+    linear-gradient(120deg, var(--ink) 0%, var(--ink) 55%, var(--ink-green) 100%);
+  padding-block: var(--sp-12) var(--sp-16);
+  min-height: 92vh;
+  display: flex;
+  align-items: center;
+}
+
+/* Iteracja 12 — min-height:92vh (desktop, celowo nietknięte) na mobile
+   wymuszało niemal pełny ekran NIEZALEŻNIE od faktycznej długości treści —
+   to była prawdziwa przyczyna "za długiego" hero, nie same odstępy. Bez
+   tego reszta poniższych, dużo mniejszych marginesów faktycznie skraca
+   sekcję zamiast zostać rozciągnięta przez flex-centering do 92vh pustki. */
+@media (max-width: 767px) {
+  .hero {
+    /* Iteracja 21 — odwrócenie kierunku z iteracji 20: hero ma teraz
+       WYPEŁNIAĆ cały pierwszy viewport (Sekcja 2 ma być w 100% poza
+       ekranem przy scrollTop:0), nie tylko "mieścić się" ściśnięty ze
+       sporym zapasem. min-height liczony względem realnej wysokości
+       stickyheadera na mobile (~58px, patrz .site-header__inner override
+       niżej) przez dynamic viewport unit (100svh) — stabilniejsze niż
+       100vh na Safari iOS (pasek adresu). align-items:flex-start (nie
+       odziedziczone center z reguły bazowej) — ewentualny nadmiar miejsca
+       ląduje jako dodatkowy odstęp POD CTA, nie jako niechciana przestrzeń
+       NAD H1. */
+    min-height: calc(100svh - 56px);
+    align-items: flex-start;
+    /* Iteracja 23 — "H1 zbyt blisko headera": header→H1 20→28px (+8px,
+       górna granica żądanego 24–28px) — jedyna zmiana spacingu w tej
+       iteracji. CTA→dół (22px) celowo nietknięte (brief: "nie zwiększaj
+       dodatkowo gapów pomiędzy elementami" — tylko header→H1). */
+    padding-block: 28px 22px;
+  }
+  /* Poszerzenie contentu TYLKO w hero (`.hero .container`, nie globalny
+     --container-pad — reszta strony/sekcji nietknięta): 24px→19px, środek
+     żądanego zakresu 18–20px. Więcej miejsca dla H1/square image/body/CTA. */
+  .hero .container {
+    padding-inline: 19px;
+  }
+}
+
+/* row-gap celowo mały: rytm pomiędzy H1/body/descriptor/CTA kontrolują ich
+   własne margin-top (różne wartości dla każdego przejścia) — gdyby .gap
+   był duży, dokładałby się DO tych marginesów (podwójny odstęp). */
+.hero__grid {
+  display: grid;
+  row-gap: var(--sp-2);
+  width: 100%;
+}
+
+/* Próg 1024px (nie 900px): przy minmax(420px,...) na obrazie, dokładnie
+   900px daje kolumnie tekstu tylko ~350px — za wąsko, H1 łamałby się na
+   4+ linie. Poniżej 1024px hero zostaje w prostym stacku (mobile/tablet),
+   gdzie więcej linii nagłówka jest akceptowalne. */
+@media (min-width: 1024px) {
+  .hero__grid {
+    grid-template-columns: minmax(0, 1.05fr) minmax(420px, 0.95fr);
+    column-gap: clamp(40px, 4vw, 72px);
+    row-gap: var(--sp-2);
+    align-items: center;
+  }
+  /* Iteracja 18 — zmierzona przyczyna "H1 i body za daleko od siebie":
+     .hero__media (grid-row:1/3) rozciąga oba wiersze do swojej wysokości
+     (portret 4:5 w szerokiej kolumnie), a odziedziczone align-items:center
+     centrowało H1 i .hero__stack WEWNĄTRZ tych (sztucznie wysokich) torów
+     wierszy — dawało to ~51px "wolnej przestrzeni" nad i pod każdym z nich,
+     niezależnie od jakichkolwiek margin-top. align-self:start kotwiczy
+     oba do góry własnego toru, więc realny odstęp H1→body to już tylko
+     row-gap + margin-top body (razem ~30px, zgodnie z briefem) — zmierzone
+     po zmianie: patrz komentarz przy .hero__body. Zdjęcie zostaje
+     wycentrowane (align-self:center, nietknięte) — zmienia się tylko
+     pozycja tekstu, nie kompozycja zdjęcia. */
+  .hero__title {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: end;
+  }
+  /* .hero__stack (body+CTA) to JEDEN wiersz gridu — w środku zwykły
+     document flow z własnymi marginesami, więc grid row-gap nie dokłada
+     się do nich (co dawało potrójny, nierówny odstęp, gdy każdy element
+     miał osobny grid-row). */
+  .hero__stack {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+  }
+  .hero__media {
+    grid-column: 2;
+    grid-row: 1 / 3;
+    align-self: center;
+  }
+}
+
+.hero__statement {
+  display: block;
+  font-size: var(--fs-hero-statement);
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+/* Mobile/tablet: H1 wyraźnie mniejszy niż na desktopie. BEZ max-width w ch —
+   to ono (nie font-size) wymuszało niepotrzebne dodatkowe linie: 12ch przy
+   36px cięło kolumnę do ~177px, dużo węziej niż realny container (327–382px
+   przy 375–430px). Naturalna szerokość .hero__grid (pełna szerokość
+   containera, gutter 24px) już sama trzyma H1 w 3 liniach — potwierdzone
+   pomiarem rect.height / line-height w audycie mobile. */
+/* Iteracja 21 — odwrócenie iteracji 19: zgłoszone jako "za bardzo
+   zmniejszony". Podniesione z powrotem tak, żeby na benchmarku iPhone 16
+   Pro (~402px) wypadło w środku żądanego zakresu 36–39px (9vw@402≈36.2px). */
+@media (max-width: 767px) {
+  .hero__statement {
+    font-size: clamp(2.25rem, 9vw, 2.75rem);
+  }
+}
+
+/* Najwęższe telefony (375px i węziej w tym paśmie): przy floor 36px nadal
+   3 linie (ta sama metoda pomiaru co poprzednio — rect.height/line-height). */
+@media (max-width: 380px) {
+  .hero__statement {
+    font-size: 2.25rem; /* 36px */
+  }
+}
+
+/* Iteracja 18 — margin-top zmniejszony z 1.75rem (28px) do 0.875rem (14px):
+   H1→body na desktopie/tablecie miało czytać się wyraźnie bliżej siebie
+   (razem z niezmienionym row-gap:var(--sp-2)=16px z .hero__grid daje razem
+   ~30px zamiast ~44px, czyli ok. -32% — w środku żądanego zakresu 25–35%).
+   Mobile ma WŁASNY override niżej (24px), więc ta zmiana go nie dotyczy. */
+.hero__body {
+  margin-top: 0.875rem;
+  font-size: var(--fs-body);
+  line-height: var(--body-line);
+  color: var(--paper-muted);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-top: var(--sp-6);
+}
+
+/* Iteracja 17 — poprzednia hierarchia (primary full-width / secondary
+   mniejszy) czytała się jako niespójna para przycisków, nie świadoma
+   hierarchia. Oba CTA dostają teraz WSPÓLNĄ, kompaktową szerokość (nie
+   full-width) — hierarchia primary/secondary zostaje wyrażona wyłącznie
+   przez wypełnienie/kolor (.btn--primary vs .btn--outline), nie przez
+   rozmiar. Wspólny selektor (zamiast osobnych reguł na :first-child i
+   .hero__cta-secondary) gwarantuje identyczną szerokość/wysokość/padding. */
+/* Iteracja 19 — dwa poprzednie próby (full-width primary / mniejszy
+   secondary w iteracji 12; wspólna stała szerokość 222px w iteracji 17)
+   wciąż stackowały oba CTA jeden pod drugim na mobile. Brief wprost chce
+   OBA W JEDNYM RZĘDZIE. flex:row + width:100% na wrapperze, proporcje
+   40/60 (dłuższy label "Dołącz do newslettera" dostaje więcej miejsca),
+   min-width:0 na przyciskach (inaczej flex nie pozwala im się zwęzić
+   poniżej ich intrinsic content width — kluczowe, żeby oba zmieściły się
+   w jednym wierszu bez wychodzenia poza viewport), white-space:nowrap
+   (żaden label się nie zawija), mniejszy font/padding niż poprzednio. */
+@media (max-width: 767px) {
+  .hero__actions {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: 100%;
+    gap: 8px;
+    /* body→CTA 15→18px (środek żądanego 16–20px). */
+    margin-top: 18px;
+  }
+  .hero__actions .btn {
+    flex: 0 1 40%;
+    min-width: 0;
+    min-height: 45px;
+    padding-inline: 0.6em;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    text-align: center;
+  }
+  .hero__actions .hero__cta-secondary {
+    flex: 1 1 60%;
+  }
+}
+
+/* Iteracja 18 — po usunięciu tagów pod body (.hero__subhead, całkowicie
+   skasowany razem z HTML) margin-top na .hero__actions liczy się teraz
+   wprost jako "body → CTA" (wcześniej liczył się jako "subhead → CTA").
+   Rytm mobile: H1→visual 24px, visual→body 24px, body→CTA 20px,
+   CTA→CTA 9px (patrz .hero__actions wyżej), dół sekcji 28px (patrz
+   .hero niżej) — wszystko w granicach zakresu z briefu. */
+@media (max-width: 767px) {
+  .hero__media {
+    /* Iteracja 21: H1→image 19→22px (środek żądanego 20–24px). */
+    margin-top: 22px;
+  }
+  /* Iteracja 24 — jeszcze +1px względem iteracji 23 (15px→16px, DOKŁADNIE
+     +1px jak w briefie), line-height 1.48→1.47 (środek żądanego 1.45–1.5,
+     lekko ściśnięty żeby zamortyzować dodatkowy px wysokości — nadal w
+     zakresie). Hero body teraz PONAD --body-mobile (14px) o 2px łącznie
+     przez dwie kolejne iteracje (23+24) — świadomy, kumulatywny wyjątek,
+     nie regresja global body system z iteracji 22. */
+  .hero__body {
+    margin-top: 20px;
+    font-size: 1rem; /* 16px */
+    line-height: 1.47;
+  }
+  /* Iteracja 34 — pełny lead (iteracja 33) na mobile wyglądał jak jeden
+     zbity blok tekstu. Rozwiązanie NIE polega na ukrywaniu treści (to był
+     błąd poprzedniej wersji) — obie zdania są cały czas w pełni obecne
+     i czytelne, dzielimy je tylko WIZUALNIE na mobile na dwa akapity:
+     .hero__body-more przechodzi z domyślnego "inline" (kontynuacja zdania
+     w jednym wierszu tekstu — tak działa i zostaje na desktopie) na
+     "block" wyłącznie w tym media query, z małym margin-top (8–10px wg
+     briefu) zamiast zwykłego odstępu międzyakapitowego. Kropka kończąca
+     pierwsze zdanie żyje teraz w realnym tekście PRZED spanem (patrz
+     index.html, "całą organizacją.<span...") — działa identycznie na obu
+     layoutach, więc ta zmiana nie wymagała żadnej korekty copy. */
+  .hero__body-more {
+    display: block;
+    margin-top: 9px;
+  }
+}
+
+.hero__media {
+  position: relative;
+}
+
+/* Odstęp H1→zdjęcie w tabletowym stacku (768–1023px) — od 1024px
+   .hero__media jest w kolumnie 2 i dostaje margin-top:0 (patrz wyżej).
+   Zakres OGRANICZONY do 768–1023: ≤767px ma już własny, dokładny margines
+   24px (iteracja 12, wyżej) — bez tego ograniczenia ta reguła (równa
+   specyficzność, ale PÓŹNIEJ w źródle) nadpisywałaby 24px z powrotem na
+   96px na telefonach. */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero__media {
+    margin-top: var(--sp-8);
+  }
+}
+
+.hero__image-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Iteracja 18 — poprzedni limit (portret 4:5 + max-height:65vh) był GŁÓWNĄ
+   przyczyną tego, że hero mobile nie mieściło się w jednym viewporcie:
+   przy 342px szerokości treści 4:5 dawało ~428px wysokości samego zdjęcia.
+   Mobile dostaje teraz WŁASNY, panoramiczny crop (16:8, ok. 2:1) zamiast
+   desktopowego portretu — przy tej samej szerokości to ~171px, czyli w
+   środku żądanego zakresu 150–190px. Desktop/tablet (≥768px, bazowa
+   reguła wyżej) zostają przy pełnym portretowym 4:5 bez zmian.
+   object-fit:cover (bazowa reguła niżej) sprawia, że placeholder I
+   docelowe zdjęcie automatycznie dostają tę samą geometrię — nie trzeba
+   osobnego pliku na mobile. */
+/* Iteracja 21 — HARD REQUIREMENT: kwadrat 1:1 na mobile (nie panorama
+   16:8 z iteracji 20, ani stały height w px). height:auto — aspect-ratio
+   sam wylicza wysokość ze zmierzonej szerokości contentu (teraz szerszej
+   dzięki 19px hero padding), placeholder i docelowe zdjęcie dostają
+   identyczną geometrię automatycznie (object-fit:cover niżej, bez zmian). */
+@media (max-width: 767px) {
+  .hero__image-frame {
+    aspect-ratio: 1 / 1;
+    height: auto;
+  }
+}
+
+.hero__image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+/* --------------------------------------------------------------------------
+   CAROUSEL DOTS — jeden reużywalny komponent dla WSZYSTKICH mobilnych
+   carouseli (Szybex timeline / Zasady / Obszary), zamiast trzech różnych
+   styli pagination. Widoczność/margines kontroluje wrapper danej sekcji
+   (`.szybex-timeline-dots`, `.principles-dots`, `.topics__dots` — każdy ma
+   własny breakpoint, bo Obszary działa do 1023px a Szybex/Zasady do 767px).
+   Generowane i aktualizowane JS-em: initCarouselDots() w main.js.
+   -------------------------------------------------------------------------- */
+.carousel-dots {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.carousel-dots__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(200, 200, 200, 0.5);
+  padding: 0;
+  transition: background-color 250ms var(--ease-out), transform 250ms var(--ease-out);
+}
+
+.carousel-dots__dot[aria-current="true"] {
+  background: var(--teal);
+  transform: scale(1.25);
+}
+
+/* Cienka turkusowa strzałka (linia + grot) — inspirowana grafikami z postów
+   LinkedIn Michała, zamiast ciężkiej ikony chevron-w-kółku. Reużywana przy
+   "Czytaj na LinkedIn" i podobnych text linkach (patrz HTML: .arrow-icon). */
+.arrow-icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* --- Manifest --- */
+.manifest {
+  text-align: left;
+}
+
+/* Iteracja 12 — mobile: ~25–30% mniej pionowego paddingu niż standardowe
+   68px (z .section:not(.hero)), żeby statement nie czytał się jak osobny
+   "full screen moment", tylko szybkie przejście. Scoped przez ID, żeby nie
+   ruszać wspólnej reguły .section:not(.hero) używanej wszędzie indziej. */
+@media (max-width: 767px) {
+  #manifest {
+    padding-block: var(--section-space-mobile-sm);
+  }
+}
+
+.manifest__accent {
+  display: block;
+  width: 56px;
+  height: 3px;
+  margin-bottom: var(--sp-4);
+  background: var(--gradient-signature);
+}
+
+.manifest__statement {
+  font-size: var(--fs-manifest);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  max-width: 18ch;
+}
+
+/* Iteracja 22 — BODY LARGE, świadomy token (poprzednio --fs-body-lg samo
+   w sobie, ale BEZ line-height — dziedziczyło domyślne 1.5 z body{},
+   niespójne z resztą systemu). line-height dodany jawnie. */
+.manifest__body {
+  margin-top: var(--sp-6);
+  font-size: var(--fs-body-lg);
+  line-height: var(--body-line);
+  color: var(--ink-muted);
+  max-width: 56ch;
+}
+
+/* --- About --- */
+.about {
+  background: linear-gradient(
+      135deg,
+      rgba(0, 173, 139, 0.08) 0%,
+      rgba(0, 143, 114, 0.04) 30%,
+      transparent 60%
+    ),
+    var(--paper);
+}
+
+/* Iteracja 7 — poprzedni wzorzec (heading/copy jako OSOBNE dzieci grid,
+   dzielące "wiersz" ze zdjęciem) miał ten sam bug co Hero na starcie: wiersz
+   współdzielony ze zdjęciem rozciągał się do jego wysokości, więc body
+   (drugi wiersz) startowało dopiero pod zdjęciem — "duża dziura" między H2
+   a body. Naprawa: .about__text (heading+copy) to na desktopie JEDEN
+   element grid — nic go nie rozciąga względem zdjęcia, body flow-uje
+   normalnie zaraz pod H2.
+
+   Na mobile .about__text ma display:contents (znika jako box, ale JEGO
+   dzieci — heading, copy — stają się bezpośrednimi elementami .about__grid),
+   więc `order` może wstawić zdjęcie MIĘDZY nimi mimo że w DOM siedzą razem
+   (wymóg mobilny: headline → zdjęcie → body, sekcja 4). Ten sam trik co
+   `order` w Szybex, tylko odwrotnie użyty (tam order przesuwa zdjęcie NA
+   KONIEC dla desktopu; tu przesuwa je DO ŚRODKA dla mobile). */
+.about__grid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.about__text {
+  display: contents;
+}
+
+.about__heading {
+  order: 1;
+}
+
+.about__image-wrap {
+  order: 2;
+}
+
+.about__copy {
+  order: 3;
+}
+
+@media (min-width: 900px) {
+  .about__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+    gap: clamp(56px, 6vw, 96px);
+    align-items: start;
+  }
+  /* .about__text przestaje być "contents" — teraz to prawdziwy box, JEDEN
+     grid item w kolumnie 1, z heading+copy w normalnym flow w środku. */
+  .about__text {
+    display: block;
+  }
+  .about__heading,
+  .about__copy {
+    order: initial;
+  }
+  .about__copy {
+    margin-top: 1.75rem; /* H2 → body: 28px, w zakresie 24–32px z briefu */
+  }
+
+  /* Editorial, nie idealnie wyśrodkowane: zdjęcie zaczyna się niżej niż
+     headline i "wchodzi" bliżej PRAWEJ krawędzi viewportu (bleed). To już
+     NIE wpływa na pozycję body (patrz komentarz wyżej) — .about__image-wrap
+     jest teraz w osobnej, niezależnej kolumnie gridu. */
+  .about__image-wrap {
+    order: initial;
+    margin-top: 3rem;
+    margin-right: calc(-1 * var(--container-pad));
+    width: calc(100% + var(--container-pad));
+  }
+}
+
+.about__image-wrap {
+  position: relative;
+}
+
+.about__image-dots {
+  top: -20px;
+  right: -20px;
+  width: 140px;
+  height: 140px;
+}
+
+.about__image-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+/* Iteracja 12 — pionowe zdjęcie 4:5 na pełnej szerokości telefonu potrafi
+   zająć niemal cały ekran; twardy limit trzyma je w rozsądnych granicach.
+   Iteracja 24 — zmierzona realna przyczyna "zdjęcie nie wyśrodkowane":
+   max-height + aspect-ratio:4/5 (baza) zawężają WIDTH poniżej 100%
+   kontenera, gdy tylko dostępna szerokość przekroczy ~352px (dokładnie
+   440px / (5/4) = 352px — potwierdzone pomiarem: 375/390px miały równe
+   gutters bo mieściły się pod tym progiem, 402/430px już nie, dając
+   0–30px rozjazdu). Block-level element z zawężoną szerokością domyślnie
+   zostaje przy lewej krawędzi (brak automatycznego centrowania) —
+   margin-inline:auto to standardowa poprawka, centruje go w
+   .about__image-wrap niezależnie od tego, ile dokładnie px zostaje
+   zawężone. Nie zmienia aspect-ratio/wysokości/paddingu — tylko
+   horyzontalne wyśrodkowanie skróconego bloku. */
+@media (max-width: 767px) {
+  .about__image-frame {
+    max-height: 440px;
+    margin-inline: auto;
+  }
+}
+
+.about__image-frame::after {
+  content: "";
+  position: absolute;
+  left: -10px;
+  bottom: -10px;
+  width: 64px;
+  height: 2px;
+  background: var(--gradient-signature);
+}
+
+.about__image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.about__body {
+  max-width: 640px;
+  font-size: var(--fs-body);
+  line-height: var(--body-line);
+  color: var(--ink-muted);
+}
+
+/* Iteracja 30 — dokumenty prawne (Polityka Prywatności / Cookies) reużywają
+   .about__body dla spójnej typografii akapitów, ale global reset (list-
+   style:none, patrz reset bazowy) usuwał markery list — bez tej reguły
+   listy wypunktowane w treści dokumentów renderowałyby się jako zwykłe
+   akapity bez wizualnego rozróżnienia. Scoped do .legal-content, żeby nie
+   dotykać żadnej innej listy na stronie (carousele, nawigacja itd. mają
+   swój własny, celowy list-style:none). */
+.legal-content ul {
+  list-style: disc;
+  padding-left: 1.4em;
+  margin: 0.6em 0;
+}
+
+.legal-content li {
+  margin-top: 0.35em;
+}
+
+.legal-content li:first-child {
+  margin-top: 0;
+}
+
+/* Iteracja 22 — BODY STANDARD: brak mobile override renderowało 16px na
+   mobile (--fs-body jest stałe, nie responsywne — celowo, patrz komentarz
+   przy tokenach). line-height dziedziczy się poprawnie automatycznie
+   (--body-line ma globalną mobile redefinicję), ale font-size wymaga
+   jawnego przełącznika na --body-mobile. */
+@media (max-width: 767px) {
+  .about__body {
+    font-size: var(--body-mobile);
+  }
+}
+
+.about__body p + p {
+  margin-top: 1.1em;
+}
+
+.about__scrollcue {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-size: var(--fs-small);
+  color: var(--teal-ink);
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-fast) var(--ease-out);
+}
+
+/* Iteracja 19 — element stał się realnym linkiem (<a href="#szybex">),
+   dostaje ten sam hover/focus affordance co .disclosure__toggle tuż obok
+   niego, żeby oba linki w .about__links czytały się spójnie jako
+   interaktywne. */
+.about__scrollcue:hover,
+.about__scrollcue:focus-visible {
+  border-bottom-color: currentColor;
+}
+
+/* Iteracja 6 — "Czytaj więcej" i "Poznaj Szybex" siedziały jedno pod drugim
+   bez wyraźnego rozdzielenia (czytały się jak sklejone). Teraz jeden wiersz,
+   gap 20–24px; .disclosure__toggle/.about__scrollcue dostają margin-top:0
+   TYLKO w tym kontekście (poza nim disclosure__toggle nadal ma swój
+   domyślny margin-top:var(--sp-4), np. w Szybex, gdzie nie ma drugiego
+   linku obok). */
+.about__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
+  margin-top: var(--sp-4);
+}
+
+.about__links .disclosure__toggle,
+.about__links .about__scrollcue {
+  margin-top: 0;
+}
+
+/* Iteracja 16 — poprzednia wersja wymuszała pełną treść "O mnie" widoczną
+   od razu na desktopie (toggle ukryty, #aboutMore forced display:block).
+   Brief tej iteracji explicite tego nie chce: "Czytaj więcej" ma działać
+   IDENTYCZNIE na desktopie i mobile — ten wymuszający override usunięty,
+   sekcja korzysta z tego samego, już istniejącego mechanizmu disclosure
+   (initDisclosure w main.js) bez żadnych zmian w JS. */
+
+/* --- Szybex ---
+   Mobile-first flow + desktop reorder (patrz Hero): w DOM zdjęcie
+   (.szybex__photo) siedzi zaraz po nagłówku — na mobile to poprawna
+   kolejność wprost (eyebrow+headline → zdjęcie → lead → timeline). Od
+   900px .szybex__flow zamienia się w flex i `order` przesuwa zdjęcie na
+   koniec sekcji (duże, panoramiczne zamknięcie — sekcja 31 briefu). */
+@media (min-width: 900px) {
+  .szybex__flow {
+    display: flex;
+    flex-direction: column;
+  }
+  .szybex__photo {
+    order: 10;
+  }
+}
+
+.szybex__intro {
+  margin-top: var(--sp-6);
+  max-width: 640px;
+  font-size: var(--fs-body);
+  line-height: var(--body-line);
+  color: var(--paper-muted);
+}
+
+@media (min-width: 900px) {
+  .szybex__intro {
+    margin-top: 0;
+  }
+}
+
+.szybex__intro p + p {
+  margin-top: 1.1em;
+}
+
+/* Iteracja 22 — BODY STANDARD (ujednolicone z .about__body — brak
+   override renderowało 16px na mobile, inny "system" niż Hero/Praktyka/
+   Newsletter, które miały już własne mobile overrides). */
+@media (max-width: 767px) {
+  .szybex__intro {
+    font-size: var(--body-mobile);
+  }
+}
+
+.szybex__meta {
+  margin-top: var(--sp-3);
+}
+
+/* Editorial timeline — Michał na tle historii firmy, nie karty SaaS */
+.szybex-timeline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-6) var(--sp-4);
+  margin-top: var(--sp-8);
+  padding-top: var(--sp-6);
+  border-top: 1px solid var(--line-on-dark);
+}
+
+.szybex-timeline__item {
+  flex: 1 1 130px;
+  min-width: 110px;
+}
+
+/* Iteracja 6 — pionowy stack z iteracji 5 był technicznie poprawny, ale na
+   mobile zajmował gigantyczną wysokość (5 pozycji × pełna wysokość + łączniki
+   "↓"). Zamiana na NATYWNY horizontal scroll — bez biblioteki/JS-owej
+   karuzeli, czysty flex + overflow-x + scroll-snap. Desktop (≥768px)
+   zostaje bez zmian (patrz .szybex-timeline bazowe wyżej — flex-wrap w
+   rzędzie, niezależne od tego bloku). */
+/* Iteracja 19 — fundamentalna zmiana logiki (nie kolejna korekta offsetu):
+   5 dat przestają być traktowane jako 5 osobnych "pełnoekranowych" slajdów
+   (poprzednio 68–73vw/kartę, co dawało dokładnie 1 event na ekran i
+   ogromny odstęp optyczny do kolejnego). Teraz to WĄSKIE punkty na jednej,
+   ciągłej osi czasu — kilka jednocześnie widocznych na ekranie, węższe
+   odstępy, naturalny horizontal scroll. To eliminuje problem "1992 i 2016
+   za daleko od siebie" u ŹRÓDŁA (mniej treści na kartę = więcej kart na
+   ekran), zamiast kolejnej próby manipulacji samym offsetem/paddingiem. */
+@media (max-width: 767px) {
+  .szybex-timeline {
+    margin-top: var(--sp-6);
+    padding-top: var(--sp-4);
+    flex-wrap: nowrap;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--sp-2);
+    /* schowany scrollbar wizualnie — scroll nadal w pełni działa */
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* Bleed do pełnej szerokości viewportu, standardowy --container-pad —
+       przy tak wąskich eventach (150px) nie potrzeba już żadnej specjalnej
+       matematyki centrującej: rozsądny, zwykły gutter wystarcza (brief:
+       "daj rozsądny initial padding... NIE centruj już jednej ogromnej
+       karty"). scroll-padding-left zgodny z marginesem :first-child. */
+    margin-inline: calc(-1 * var(--container-pad));
+    scroll-padding-left: var(--container-pad);
+  }
+  .szybex-timeline::-webkit-scrollbar {
+    display: none;
+  }
+  .szybex-timeline__item {
+    position: relative;
+    flex: 0 0 150px;
+    min-width: 0;
+    padding-top: 22px;
+    scroll-snap-align: start;
+  }
+  .szybex-timeline__item:first-child {
+    margin-left: var(--container-pad);
+  }
+  .szybex-timeline__item:last-child {
+    margin-right: var(--container-pad);
+  }
+  /* JEDNA ciągła linia zamiast 5 osobnych segmentów: każdy item (poza
+     ostatnim) rozciąga swój fragment linii o dokładnie tyle, ile wynosi
+     gap do kolejnego itemu (calc(100% + gap)), więc segmenty wizualnie
+     zlewają się w jedną nieprzerwaną oś przechodzącą przez WSZYSTKIE
+     widoczne eventy naraz — a nie 5 rozłącznych kresek z przerwami. */
+  .szybex-timeline__item::before {
+    content: "";
+    position: absolute;
+    top: 8px;
+    left: 0;
+    width: calc(100% + 20px);
+    height: 2px;
+    background: var(--teal);
+    opacity: 0.55;
+  }
+  .szybex-timeline__item:last-child::before {
+    width: 100%;
+  }
+  .szybex-timeline__item::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+  }
+  .szybex-timeline__item--today::after {
+    background: var(--paper);
+  }
+  /* Krótsze etykiety przy węższych (150px) eventach — mniejszy font +
+     ciaśniejszy line-height, żeby najdłuższy label ("19 własnych
+     oddziałów...") nie rozciągał swojego itemu na kilkanaście linii i nie
+     psuł rytmu wysokości reszty eventów. */
+  .szybex-timeline__label {
+    font-size: 0.75rem;
+    line-height: 1.35;
+  }
+}
+
+/* Dot pagination reprezentuje POZYCJE SWIPE, nie liczbę dat — z 5 wąskich
+   eventów generowane są tylko dla 3 "kotwic" (.timeline-anchor: 1992/2021/
+   Dziś, patrz HTML), więc mimo 5 dat na osi pokazujemy 3 kropki, zgodnie
+   z briefem ("pagination dots oznaczają viewport/swipe position, nie
+   liczbę dat"). initCarouselDots w main.js dostaje selektor `.timeline-anchor`
+   zamiast `.szybex-timeline__item` — bez zmian w samej logice JS. */
+
+/* Dot pagination (patrz komponent współdzielony wyżej) zamiast tekstowego
+   licznika "01 / 05". */
+.szybex-timeline-dots {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .szybex-timeline-dots {
+    display: flex;
+    margin-top: var(--sp-3);
+  }
+}
+
+.szybex-timeline__year {
+  display: block;
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 600;
+  color: var(--teal);
+}
+
+.szybex-timeline__item--today .szybex-timeline__year {
+  color: var(--paper);
+}
+
+.szybex-timeline__label {
+  display: block;
+  margin-top: 0.4em;
+  font-size: var(--fs-small);
+  color: var(--paper-muted);
+  max-width: 20ch;
+}
+
+/* Jedno mocne zdjęcie — Michał + zespół/organizacja, nie kolaż. Na mobile
+   zaraz po nagłówku (patrz .szybex__flow wyżej); na desktopie order:10
+   przesuwa je na koniec, więc dostaje większy margines i semi-full-bleed. */
+.szybex__photo {
+  margin-top: var(--sp-6);
+  margin-bottom: var(--sp-6);
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+}
+
+.szybex__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 900px) {
+  .szybex__photo {
+    margin-top: var(--sp-12);
+    margin-bottom: 0;
+    aspect-ratio: 16 / 8;
+    margin-inline: calc(-1 * var(--container-pad));
+    width: calc(100% + 2 * var(--container-pad));
+  }
+}
+
+/* --- Principles --- */
+/* Iteracja 7 — H2 sekcji musi być WYRAŹNIE większy niż H3 (principles).
+   Celowo NIE zmieniamy współdzielonego --fs-h2 (używa go też Kontakt/
+   Obszary/Newsletter, "nie ruszaj" z briefu) — osobny, scoped rozmiar tylko
+   dla tego jednego nagłówka. */
+.principles__title {
+  font-size: clamp(3rem, 3.5vw, 3.5rem); /* 48–56px desktop */
+  line-height: 1.03;
+}
+
+@media (max-width: 767px) {
+  .principles__title {
+    font-size: clamp(2.125rem, 9vw, 2.5rem); /* 34–40px mobile */
+    line-height: 1.05;
+  }
+}
+
+.principles__list {
+  counter-reset: principle;
+}
+
+/* Iteracja 13 — mobile: pionowa lista (5 osobnych bloków) zamieniona na
+   horizontal swipe carousel, tym samym mechanizmem co Szybex/Obszary (bleed
+   + scroll-snap + scroll-padding-left dopasowany do marginesu pierwszego
+   elementu). Desktop (≥768px, reguły bazowe .principle wyżej) kompletnie
+   nietknięty — nadal pionowa lista z separatorami. */
+@media (max-width: 767px) {
+  .principles__list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-inline: calc(-1 * var(--container-pad));
+    scroll-padding-left: var(--container-pad);
+  }
+  .principles__list::-webkit-scrollbar {
+    display: none;
+  }
+  .principles__list > li:first-child {
+    margin-left: var(--container-pad);
+  }
+  .principles__list > li:last-child {
+    margin-right: var(--container-pad);
+  }
+}
+
+/* Dot pagination (komponent współdzielony wyżej) — widoczna TYLKO w trybie
+   carousel (≤767px, ten sam próg co .principles__list wyżej). Bez tej
+   reguły .carousel-dots{display:flex} (bazowa, bez display:none) renderuje
+   się też na desktopie, gdzie karuzeli nie ma w ogóle. */
+.principles-dots {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .principles-dots {
+    display: flex;
+    margin-top: var(--sp-3);
+    justify-content: center;
+  }
+}
+
+.principle {
+  counter-increment: principle;
+  position: relative;
+  padding-block: var(--sp-8);
+  border-top: 1px solid var(--line-on-dark);
+}
+
+.principle:last-child {
+  border-bottom: 1px solid var(--line-on-dark);
+}
+
+/* W trybie carousel każda zasada to osobny slide — separator między nimi
+   traci sens (to już nie ciągła lista). */
+@media (max-width: 767px) {
+  .principle {
+    flex: 0 0 80vw;
+    min-width: 0;
+    min-height: 260px;
+    scroll-snap-align: start;
+    border-top: none;
+  }
+  .principle:last-child {
+    border-bottom: none;
+  }
+}
+
+.principle::before {
+  content: counter(principle, decimal-leading-zero);
+  position: absolute;
+  top: var(--sp-8);
+  right: 0;
+  font-size: clamp(3rem, 9vw, 8rem);
+  font-weight: 600;
+  color: var(--paper);
+  opacity: 0.1;
+  line-height: 1;
+  pointer-events: none;
+}
+
+/* Mobile audit — na mobile kolumna tekstu (statement, max-width:20ch) sięga
+   prawie do prawej krawędzi containera, więc numer w rogu top-right realnie
+   nachodził na wrapowany headline (potwierdzone screenshotem: "01/02/03..."
+   wchodziło w tekst). Przenosimy numer do pustej strefy pod tekstem zamiast
+   za nim, żeby wciąż był "widoczny w tle", ale nigdy pod literami. */
+@media (max-width: 767px) {
+  .principle::before {
+    top: auto;
+    bottom: var(--sp-3);
+    right: var(--sp-2);
+    font-size: clamp(2.75rem, 16vw, 4.5rem);
+  }
+}
+
+.principle__statement {
+  font-size: var(--fs-principle);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  max-width: 20ch;
+}
+
+/* Iteracja 12 — kontrast body na ciemnym tle poprawiony: zamiast
+   współdzielonego --paper-muted (#9AA6A1, fixed hex reużywany szeroko na
+   stronie i celowo nietknięty), tu wprost ~70% biały (rgba paper), scoped
+   tylko do tej sekcji. */
+.principle__comment {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-body);
+  line-height: var(--body-line);
+  color: rgba(247, 246, 242, 0.7);
+  max-width: 46ch;
+}
+
+/* Iteracja 22 — BODY STANDARD (brak mobile override wcześniej — 16px na
+   mobile, niespójne z resztą strony). line-height dodany jawnie (brak
+   go wcześniej w ogóle) — dziedziczy poprawną mobile/desktop parę z
+   globalnej redefinicji --body-line. */
+@media (max-width: 767px) {
+  .principle__comment {
+    font-size: var(--body-mobile);
+  }
+}
+
+/* Iteracja 6 — po dodaniu H2 sekcji, principles (teraz H3) nie muszą być
+   już tak duże/rozciągnięte na mobile: 24–28px (docelowy zakres z briefu),
+   padding-block sekcji ściśnięty z 64px do 32–36px. */
+@media (max-width: 767px) {
+  .principle {
+    /* Iteracja 19 — poprzednie 20px poziomego paddingu (z czasów pionowej
+       listy, sprzed konwersji na carousel w iteracji 13) przesuwały tekst
+       20px w prawo względem lewej krawędzi itemu — a to WŁAŚNIE ta krawędź
+       jest wyrównana do container-pad (patrz :first-child margin-left w
+       .principles__list), czyli do tej samej osi co główny H2 sekcji.
+       Zmierzone przed poprawką: h2Left:24px vs principleStatementLeft:44px
+       — 20px rozjazdu. Usunięcie poziomego paddingu naprawia to w 100%
+       (tekst i H2 zaczynają się teraz dokładnie w tym samym punkcie). */
+    padding-block: 28px;
+  }
+  .principle__statement {
+    font-size: clamp(1.5rem, 6vw, 1.75rem);
+    max-width: none;
+  }
+  /* Mały numer nad headlinem — editorial motif "przeniesiony" z Praktyki
+     (.praktyka-entry__category), NIE kopiowany 1:1: ten sam styl (mały,
+     uppercase, turkusowy, oparty o counter()), ale bez kategorii/ukośnika,
+     bo Zasady nie mają kategorii tematycznych. Reużywa istniejącego
+     licznika `principle` (ten sam, którego używa duży, przygaszony numer
+     w tle — .principle::before, nietknięty). */
+  .principle__statement::before {
+    content: counter(principle, decimal-leading-zero);
+    display: block;
+    margin-bottom: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--teal);
+  }
+}
+
+/* Statyczna, NIE-scrollująca pionowa linia — jeden wspólny anchor dla
+   całego swipeowanego bloku (nie osobna linia na każdym principle, co przy
+   14px gap między kartami kolidowałoby z sąsiednimi itemami). Wyrównana
+   do TEJ SAMEJ osi co main heading (var(--container-pad)), niezależnie od
+   tego, która zasada jest akurat aktywna — dokładnie to, o co prosi brief
+   ("ten sam content grid, ten sam left padding"). Wysokość dopasowana do
+   .principle{min-height:260px} (mobile carousel), więc obejmuje
+   number+headline+body bez potrzeby JS. */
+@media (max-width: 767px) {
+  .principles__viewport {
+    position: relative;
+  }
+  .principles__line {
+    /* left:-16px (nie 0): tekst zaczyna się dokładnie w tym samym punkcie
+       co H2 (patrz .principle wyżej — bez horyzontalnego paddingu), więc
+       linia musi siedzieć W GUTTERZE przed tekstem, inaczej nachodziłaby
+       na literki zamiast być osobnym akcentem obok nich. 16px mieści się
+       bezpiecznie w 24px container-pad (nie jest ucinana przez
+       .section{overflow:hidden} bazowe — zostaje 8px zapasu do krawędzi
+       sekcji). */
+    position: absolute;
+    top: 6px;
+    left: -16px;
+    width: 2px;
+    height: 240px;
+    background: var(--teal);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+/* --- Topics --- */
+.topics__list {
+  counter-reset: topic;
+}
+
+/* Iteracja 11 — desktop: 2 kolumny × 3 rzędy (1|4, 2|5, 3|6), NIE
+   automatyczne 1|2,3|4,5|6. DOM zostaje płaski, 1–6 w kolejności naturalnej
+   (ważne dla mobile i accessibility) — tylko na szerokim desktopie CSS Grid
+   ręcznie mapuje każdy <li> na kolumnę/wiersz przez nth-child. Poniżej
+   1024px te reguły po prostu nie obowiązują (.topics__list nie jest gridem),
+   więc DOM order 1–6 wraca naturalnie bez żadnego resetu. */
+@media (min-width: 1024px) {
+  .topics__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: clamp(64px, 7vw, 120px);
+    row-gap: 0;
+  }
+  .topics__list li:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .topics__list li:nth-child(2) {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .topics__list li:nth-child(3) {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .topics__list li:nth-child(4) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .topics__list li:nth-child(5) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .topics__list li:nth-child(6) {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  /* Item 03 jest ostatni w LEWEJ kolumnie (nie ostatni w DOM) — potrzebuje
+     własnego border-bottom, żeby zamknąć kolumnę tak samo jak :last-child
+     (item 06) zamyka prawą. Separator dotyczy tylko własnej kolumny/wiersza
+     — nigdy nie ciągnie się przez całą szerokość obu kolumn. */
+  .topics__list li:nth-child(3) .topic {
+    border-bottom: 1px solid var(--line-on-light);
+  }
+}
+
+/* Każdy obszar: numer NAD headline (nie osobna szeroka kolumna z boku) —
+   zwykły document flow, bez wewnętrznego grida. Bardziej zwarte niż
+   poprzednio (padding 32/36px zamiast jednolitych 32px w obie strony). */
+.topic {
+  counter-increment: topic;
+  padding: 32px 0 36px;
+  border-top: 1px solid var(--line-on-light);
+  transition: padding-left var(--dur-normal) var(--ease-out);
+}
+
+@media (max-width: 767px) {
+  .topic {
+    padding-block: 30px;
+  }
+}
+
+.topics__list li:last-child .topic {
+  border-bottom: 1px solid var(--line-on-light);
+}
+
+.topic::before {
+  content: counter(topic, decimal-leading-zero);
+  display: block;
+  margin-bottom: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-muted);
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.topic:hover {
+  padding-left: var(--sp-2);
+}
+
+.topic:hover::before {
+  color: var(--teal-ink);
+}
+
+.topic h3 {
+  font-size: clamp(1.75rem, 1.7vw, 2rem); /* 28–32px desktop, scoped —
+    --fs-h3 (28–34px) współdzielone z innymi sekcjami zostaje nietknięte */
+  font-weight: 600;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 767px) {
+  .topic h3 {
+    font-size: clamp(1.5rem, 6.5vw, 1.6875rem); /* 24–27px mobile */
+    line-height: 1.1;
+  }
+}
+
+.topic p {
+  font-size: var(--fs-body);
+  line-height: var(--body-line);
+  color: var(--ink-muted);
+  max-width: 56ch;
+}
+
+/* Iteracja 22 — BODY STANDARD (poprzednio sztywne 16px/1.6, bez mobile
+   override w ogóle — jedno z najbardziej niespójnych miejsc w audycie). */
+@media (max-width: 767px) {
+  .topic p {
+    font-size: var(--body-mobile);
+  }
+}
+
+/* Iteracja 12 — mobile/tablet (<1024px, ten sam próg co desktopowy 2-kolumnowy
+   grid wyżej): pionowa lista zamieniona na horizontal swipe carousel. Karty
+   editorial (subtelna ramka + --paper-dim, istniejący token — NIE nowy
+   kolor), bez cieni/dużych promieni. Pierwszy ekran pokazuje pełną kartę 01
+   + fragment karty 02, sygnalizując możliwość swipe. Desktop (≥1024px,
+   reguły wyżej) zostaje kompletnie nietknięty. */
+@media (max-width: 1023px) {
+  .topics__list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    /* "bleed" kontenera scrolla do pełnej szerokości viewportu — fragment
+       karty 02 ma realnie wystawać poza container, nie ucinać się tuż przy
+       jego prawym paddingu. Wizualny gutter na start/koniec przez margin na
+       pierwszym/ostatnim elemencie; scroll-padding-left MUSI się zgadzać
+       z tym marginesem, inaczej scroll-snap sam "koryguje" pozycję startową
+       na scrollLeft = margines zamiast 0 (zmierzone i potwierdzone: bez
+       scroll-padding-left przeglądarka realnie zjadała lewy gutter karty 01
+       przy starcie). */
+    margin-inline: calc(-1 * var(--container-pad));
+    scroll-padding-left: var(--container-pad);
+  }
+  .topics__list > li:first-child {
+    margin-left: var(--container-pad);
+  }
+  .topics__list > li:last-child {
+    margin-right: var(--container-pad);
+  }
+  .topics__list::-webkit-scrollbar {
+    display: none;
+  }
+  .topics__list > li {
+    flex: 0 0 80vw;
+    max-width: 340px;
+    scroll-snap-align: start;
+  }
+  .topic {
+    height: 100%;
+    min-height: 230px;
+    padding: 24px;
+    border: 1px solid var(--line-on-light);
+    border-radius: 6px;
+    background: var(--paper-dim);
+    transition: none;
+  }
+  .topic:hover {
+    padding-left: 24px; /* neutralizuje desktopowy hover-indent — na karcie
+      przesuwanie paddingu nie ma sensu */
+  }
+}
+
+/* Iteracja 19 — "za dużo pustej przestrzeni po pagination dots" +
+   "zdjęcie w photo-break lewituje" to ten sam, wspólny problem: sekcja
+   Obszary kończyła się pełnym --sp-16/--section-space-mobile (128px/64px)
+   PO dots, zanim zaczynało się pełnoekranowe zdjęcie (.photo-break,
+   padding-block:0) — duży pas pustego tła między nimi sprawiał, że
+   fotografia wyglądała jak przypadkowo wrzucony, oderwany prostokąt.
+   Zmniejszone o ok. 35% (w środku żądanego 30–40%), TYLKO od dołu
+   (padding-top sekcji nietknięty) — scoped przez #obszary (ID, wyższa
+   specyficzność niż .section/.section:not(.hero), wygrywa niezależnie od
+   kolejności źródłowej). */
+#obszary {
+  padding-bottom: 5.2rem; /* 83px, z 128px */
+}
+
+@media (max-width: 1023px) {
+  #obszary {
+    padding-bottom: 42px; /* z 64px */
+  }
+}
+
+/* Dot pagination (komponent współdzielony, patrz wyżej) zamiast tekstowego
+   licznika "01 / 06". Spacing carousel → dots: 20–24px z briefu. */
+.topics__dots {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .topics__dots {
+    display: flex;
+    margin-top: 22px;
+  }
+}
+
+/* --- Photographic break --- */
+.photo-break {
+  padding-block: 0;
+  position: relative;
+}
+
+/* Cienka turkusowa "szew" u góry — wizualnie zszywa pełnoekranowe zdjęcie
+   z sekcją Obszary nad nim, zamiast zostawiać je jako oderwany prostokąt
+   w pustym tle. 2px, subtelne, bez cienia/gradientu. */
+.photo-break__seam {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: var(--teal);
+  opacity: 0.5;
+  z-index: 1;
+}
+
+.photo-break__frame {
+  position: relative;
+  aspect-ratio: 16 / 7;
+  overflow: hidden;
+}
+
+.photo-break__frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 767px) {
+  .photo-break__frame {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+/* --- Praktyka (compact executive journal, nie blog, nie tabela) ---
+   Iteracja 9: poprzedni redesign (editorial row 22%/78%) generował
+   ogromną martwą przestrzeń w lewej kolumnie i bardzo wysokie wpisy —
+   zła gęstość na 1440px. Nowy kierunek: KAŻDY wpis to jeden zwarty blok
+   (category → headline → body → meta, wszystko na jednej osi X), a na
+   szerokim desktopie CAŁY feed układa się w 2 kolumny (nie karty — bez
+   border-radius/shadow/tła), żeby 5 krótkich wpisów nie ciągnęło się na
+   pół ekranu w dół. */
+.praktyka {
+  padding-block: var(--sp-20);
+}
+
+/* H2 → pierwszy wpis: więcej oddechu niż domyślne .eyebrow-block (48px
+   wspólne dla całej strony) — scoped do tej sekcji, reszta stron nietknięta. */
+#praktyka .eyebrow-block {
+  margin-bottom: 56px;
+}
+
+@media (max-width: 767px) {
+  #praktyka .eyebrow-block {
+    margin-bottom: 40px;
+  }
+}
+
+/* H2 sekcji ("Rzeczy, których uczę się...") — scoped mobile override
+   (34–38px z briefu), BEZ ruszania współdzielonego h2.section-title
+   (Kontakt/Obszary/About mają zostać nietknięte). */
+@media (max-width: 767px) {
+  #praktyka h2.section-title {
+    font-size: clamp(2.125rem, 8.5vw, 2.375rem);
+    line-height: 1.05;
+  }
+}
+
+.praktyka__list {
+  counter-reset: praktyka;
+}
+
+/* Cały feed w 2 kolumnach na szerokim desktopie — editorial grid, nie card
+   grid: brak tła/cienia/zaokrągleń, tylko column-gap + indywidualny
+   border-top na każdym wpisie. */
+@media (min-width: 1024px) {
+  .praktyka__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 72px;
+    row-gap: 0;
+  }
+}
+
+.praktyka-entry {
+  padding: 32px 0 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.praktyka-entry:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+/* Iteracja 14 — mobile/tablet (<1024px, ten sam próg co desktopowy 2-kolumnowy
+   grid wyżej): pionowa lista zamieniona na horizontal swipe carousel, tym
+   samym mechanizmem co Szybex/Zasady/Obszary (bleed + scroll-snap +
+   scroll-padding-left). WSZYSTKIE 5 wpisów są teraz slajdami (poprzednie
+   ograniczenie do 3 widocznych + "Zobacz wszystkie" zniknęło — w karuzeli
+   przewinięcie przez 5 kompaktowych kart jest szybsze niż scrollowanie
+   pionowej listy). Wizualnie odrębne od Zasady/Obszary: cienki turkusowy
+   akcent z lewej (editorial/content card, nie statement-slide ani
+   category-card) — patrz zasada "4 carousele, nie 4 identyczne boxy". */
+@media (max-width: 1023px) {
+  .praktyka__list {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 16px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-inline: calc(-1 * var(--container-pad));
+    scroll-padding-left: var(--container-pad);
+  }
+  .praktyka__list::-webkit-scrollbar {
+    display: none;
+  }
+  .praktyka__list > li:first-child {
+    margin-left: var(--container-pad);
+  }
+  .praktyka__list > li:last-child {
+    margin-right: var(--container-pad);
+  }
+  .praktyka-entry {
+    flex: 0 0 80vw;
+    max-width: 360px;
+    min-width: 0;
+    min-height: 280px;
+    scroll-snap-align: start;
+    padding: 24px 20px;
+    border-top: none;
+    border-left: 2px solid var(--teal);
+  }
+  .praktyka-entry:last-child {
+    border-bottom: none;
+  }
+}
+
+@media (max-width: 767px) {
+  .praktyka-entry {
+    padding: 24px 18px;
+  }
+}
+
+/* Dot pagination (komponent współdzielony) zamiast poprzedniego statycznego
+   ograniczenia "tylko 3 widoczne". */
+.praktyka__dots {
+  display: none;
+}
+
+@media (max-width: 1023px) {
+  .praktyka__dots {
+    display: flex;
+    margin-top: 22px;
+  }
+}
+
+/* Wpisy z potwierdzonym realnym linkiem: cały blok jest klikalny
+   ("stretched link" — .praktyka-entry__cta::after rozciąga się na cały
+   rodzic), z subtelnym hover state na headline. Bez karty, bez tła,
+   bez transform/shadow. */
+.praktyka-entry--real {
+  position: relative;
+  cursor: pointer;
+}
+
+.praktyka-entry--real .praktyka-entry__title {
+  transition: color var(--dur-fast) var(--ease-out);
+}
+
+.praktyka-entry--real:hover .praktyka-entry__title,
+.praktyka-entry--real:focus-within .praktyka-entry__title {
+  color: #00ad8b;
+}
+
+.praktyka-entry__category {
+  counter-increment: praktyka;
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #00ad8b;
+}
+
+.praktyka-entry__category::before {
+  content: counter(praktyka, decimal-leading-zero) " / ";
+}
+
+@media (max-width: 767px) {
+  .praktyka-entry__category {
+    font-size: 11px;
+  }
+}
+
+.praktyka-entry__title {
+  margin-top: 14px;
+  font-size: clamp(1.75rem, 1.7vw, 2rem); /* 28–32px desktop */
+  font-weight: 600;
+  line-height: 1.1;
+  max-width: 26ch;
+  /* zapobiega sierotom w nagłówkach (np. "...zależeć od" / "CEO." na
+     osobnej linii) — natywne, bez ręcznych <br> per wpis */
+  text-wrap: balance;
+}
+
+@media (max-width: 767px) {
+  .praktyka-entry__title {
+    margin-top: 12px;
+    font-size: clamp(1.4375rem, 6vw, 1.625rem); /* 23–26px mobile */
+    line-height: 1.1;
+  }
+}
+
+.praktyka-entry__body {
+  margin-top: 16px;
+  max-width: 52ch;
+  font-size: var(--fs-body);
+  line-height: var(--body-line);
+  color: rgba(241, 243, 243, 0.68);
+}
+
+/* Iteracja 22 — BODY STANDARD (miało własne 15px mobile — trzeci, INNY
+   rozmiar niż Hero 14.5px czy dawne .about__body 16px; teraz wszystkie
+   trzy współdzielą --body-mobile). */
+@media (max-width: 767px) {
+  .praktyka-entry__body {
+    margin-top: 14px;
+    font-size: var(--body-mobile);
+  }
+}
+
+.praktyka-entry__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: 22px;
+}
+
+@media (max-width: 767px) {
+  .praktyka-entry__meta {
+    margin-top: 20px;
+  }
+}
+
+.praktyka-entry__date {
+  font-size: 13px;
+  color: rgba(241, 243, 243, 0.55);
+}
+
+@media (max-width: 767px) {
+  .praktyka-entry__date {
+    font-size: 12px;
+  }
+}
+
+.praktyka-entry__cta {
+  /* UWAGA: celowo BEZ position:relative — ::after musi "przebić" ten
+     element i zakotwiczyć się na najbliższym position:relative PRZODKU,
+     czyli .praktyka-entry--real (cały wpis), nie na samym linku. Ustawienie
+     position:relative tutaj było błędem: ograniczało klikalny obszar do
+     samego tekstu CTA zamiast całego posta (zmierzone elementFromPoint). */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  font-size: 13px;
+  font-weight: 600;
+  color: #00ad8b;
+}
+
+@media (max-width: 767px) {
+  .praktyka-entry__cta {
+    font-size: 12px;
+  }
+}
+
+/* Cały wpis klikalny: pseudo-element linku rozciągnięty na całego
+   najbliższego position:relative rodzica. UWAGA: scoped tylko do
+   `.praktyka-entry--real` (realny URL) — bez tego selektora ::after
+   znalazłby najbliższy INNY positioned ancestor (np. całą sekcję .praktyka,
+   bo .section ma position:relative) i pokrył niewidocznym, klikalnym
+   overlayem cały blok zamiast samego linku. Placeholdery (href="#", bez
+   klasy --real) zostają zwykłymi, małymi text linkami — nie rozciągniętymi. */
+.praktyka-entry--real .praktyka-entry__cta::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+.praktyka__footer {
+  margin-top: var(--sp-6);
+  text-align: center;
+}
+
+/* --- Newsletter ---
+   Iteracja 25 — przełączona z dark gradient na LIGHT (.section--paper,
+   ten sam ciepły off-white co About/Obszary), żeby dać świadomy kontrast
+   z ciemną Praktyką nad nią (brief: "DARK PUBLICATIONS ↓ LIGHT
+   NEWSLETTER"). Editorial two-column na desktopie (mirror .contact__grid
+   niżej), pojedyncza kolumna na mobile. */
+.newsletter {
+  padding-block: var(--sp-12); /* 96px, z 160px — "lekki i elegancki", nie ciężka sekcja */
+}
+
+@media (max-width: 767px) {
+  .newsletter {
+    padding-block: 52px; /* spójne z Kontaktem/Obszarami — ten sam rytm light sections */
+  }
+}
+
+.newsletter__grid {
+  display: grid;
+  gap: var(--sp-8);
+}
+
+@media (min-width: 900px) {
+  .newsletter__grid {
+    /* 55/45 z briefu — mirror .contact__grid (40–45/50–55), ale odwrotne
+       proporcje: Newsletter to głównie CONTENT z formularzem jako CTA,
+       Kontakt to głównie FORM z introem jako kontekst. */
+    grid-template-columns: 1.05fr 0.9fr;
+    gap: clamp(48px, 5vw, 80px);
+    align-items: start;
+  }
+}
+
+/* Iteracja 26 — zmierzony realny bug: padding-left:20px przesuwał CAŁY
+   .newsletter__intro (eyebrow+headline+opis) 20px w prawo względem
+   Praktyki/reszty strony na WSZYSTKICH szerokościach (zweryfikowane:
+   praktykaLeft:24 vs newsletterEyebrowLeft:44 na 375–430px, 132 vs 152
+   na 1440px — .newsletter__form-wrap zostawał poprawnie wyrównany, więc
+   rozjazd był izolowany do introu). Naprawione tym samym mechanizmem co
+   .principles__line (Zasady, iteracja 19): linia siedzi W GUTTERZE
+   (ujemny left), tekst zostaje dokładnie na wspólnej osi z Praktyką —
+   bez paddingu, który by go przesuwał. */
+.newsletter__intro {
+  position: relative;
+}
+
+/* Cienka pionowa turkusowa linia przy headline — ten sam motyw co
+   .principles__line (Zasady) i border-left w Praktyce, tu jako trzecia,
+   spójna wariacja (pionowa linia przy introie, nie przy każdej karcie). */
+.newsletter__line {
+  position: absolute;
+  top: 0.3em;
+  left: -16px;
+  width: 2px;
+  height: calc(100% - 0.3em);
+  background: var(--teal);
+  opacity: 0.7;
+}
+
+/* Brakujący line-height dziedziczył domyślne body{line-height:1.5} — na
+   headline 44–58px to ogromna przestrzeń między liniami, więc 4–5 wierszy
+   wyglądało jak osobne, nierówne "prostokąty" zamiast jednego zwartego
+   headline. Dociągnięte do tego samego rzędu wielkości co inne duże
+   nagłówki strony (Hero 0.98, section-title 1.08). Kolor: bez zmian
+   dziedziczy --ink z .section--paper (deep charcoal/near-black, zgodnie
+   z briefem) — nie potrzeba jawnej deklaracji. */
+.newsletter__headline {
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  line-height: 1.04;
+  max-width: 20ch;
+  letter-spacing: -0.015em;
+}
+
+@media (max-width: 767px) {
+  .newsletter__headline {
+    line-height: 1.07;
+  }
+}
+
+/* Iteracja 25 — sekcja jest teraz light, więc --paper-muted (jasny tekst
+   na ciemnym tle) był niepoprawny kontrastowo; --ink-muted to dokładny
+   odpowiednik dla jasnego tła, już używany w About/Obszary/Kontakt. */
+.newsletter__sub {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-body);
+  line-height: var(--body-line);
+  color: var(--ink-muted);
+  max-width: 46ch;
+}
+
+@media (max-width: 767px) {
+  .newsletter__sub {
+    font-size: var(--body-mobile);
+  }
+}
+
+.newsletter__form-wrap {
+  margin-top: 34px; /* body → formularz: 32–36px z briefu (było 48px) */
+  max-width: 480px;
+}
+
+@media (min-width: 900px) {
+  .newsletter__form-wrap {
+    margin-top: 0;
+    max-width: none;
+  }
+}
+
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+@media (min-width: 620px) {
+  .form-row--inline {
+    flex-direction: row;
+  }
+  .form-row--inline input {
+    flex: 1;
+  }
+}
+
+/* --- Contact (od iteracji 12 — jedyna, połączona sekcja CTA na końcu strony) --- */
+/* Iteracja 18 — sekcja zgłoszona jako "za wysoka/ciężka" na mobile.
+   Desktop: lekka redukcja z bazowych 128px (var(--sp-16)) do 104px
+   (~19%, w środku żądanego zakresu 15–20%) — layout kolumn nietknięty.
+   Mobile: dużo większa redukcja, z odziedziczonych 64px
+   (.section:not(.hero), wspólne z resztą strony) do 52px, w środku
+   żądanego zakresu 48–56px — scoped tylko do #kontakt, reszta sekcji
+   współdzielących --section-space-mobile zostaje bez zmian. */
+#kontakt {
+  padding-block: 6.5rem;
+}
+
+@media (max-width: 767px) {
+  #kontakt {
+    padding-block: 52px;
+  }
+}
+
+.contact__grid {
+  display: grid;
+  gap: var(--sp-8);
+}
+
+/* Mobile: "intro → form" to na pojedynczej kolumnie WERTYKALNY odstęp
+   (ten sam .gap, co na desktopie jest poziomym column-gap między dwiema
+   kolumnami) — zmniejszony do 26px (środek zakresu 24–28px), scoped
+   dokładnie do progu przełącznika 1-kol/2-kol (699px), żeby nie nadpisać
+   przypadkiem desktopowego column-gap na 700–767px. */
+@media (max-width: 699px) {
+  .contact__grid {
+    gap: 26px;
+  }
+}
+
+.contact__intro {
+  position: relative;
+  max-width: 42ch;
+  padding-top: 22px;
+}
+
+/* Iteracja 25 — krótka POZIOMA turkusowa linia nad eyebrow (nie kopia
+   pionowej linii z Newslettera tuż nad tą sekcją — ta sama "rodzina",
+   inny komponent, zgodnie z briefem). */
+.contact__line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 2px;
+  background: var(--teal);
+}
+
+.form-fields {
+  display: grid;
+  gap: 0;
+}
+
+.form-fields--pair {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0 var(--sp-4);
+}
+
+@media (min-width: 700px) {
+  .form-fields--pair {
+    grid-template-columns: 1fr 1fr;
+  }
+  /* Iteracja 25 — 0.8fr/1.2fr (40/60%) zawężone do 0.82fr/1fr (~45/55%,
+     górna/dolna granica żądanego 40–45% / 50–55%) — formularz nie ma się
+     już rozciągać "absurdalnie szeroko", editorial whitespace między
+     kolumnami zostaje (gap bez zmian). */
+  .contact__grid {
+    grid-template-columns: 0.82fr 1fr;
+  }
+}
+
+.form-status--success h3 {
+  font-size: var(--fs-h3);
+  margin-bottom: 0.5em;
+}
+
+/* "Odpowiem osobiście." pod przyciskiem — kolumna, nie rząd, żeby tekst
+   siedział pod buttonem a nie obok niego. */
+.contact__grid .form-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.contact__grid .form-actions .form-note {
+  margin-top: 0;
+}
+
+/* Mobile audit — submit Kontaktu na pełną szerokość, żeby nie wisiał wąski
+   na środku 24px-gutterowanego containera. */
+@media (max-width: 767px) {
+  .contact__grid .form-actions .btn {
+    width: 100%;
+  }
+}
+
+/* Iteracja 18 — pola formularza kontaktowego (w tym checkbox zgody, który
+   dzięki temu też poprawnie daje "gap przed submit" — .form-fields ma
+   gap:0, więc CAŁY odstęp między polami pochodzi z .field margin-bottom)
+   zmniejszone z 24px do 14px (środek żądanego zakresu 12–16px). Scoped do
+   #contactForm — newsletter (jedyny inny formularz, dzieli klasę .field)
+   ma już swój margin-bottom:0 inline, więc nie zależy od bazowej wartości
+   i tak, ale scoping i tak jest bezpieczniejszy/precyzyjniejszy niż zmiana
+   współdzielonej bazowej reguły .field. */
+#contactForm .field {
+  margin-bottom: 14px;
+}
+
+/* Zmierzone: bazowe padding:14px 16px + border dawało realne 54px wysokości
+   inputu (min-height:52px samo w sobie nie ogranicza, gdy content+padding
+   go przebija) — 2px ponad żądany zakres 48–52px. 13px w pionie daje
+   dokładnie 52px, bez ruszania współdzielonej bazowej reguły (newsletter
+   input zostaje na dotychczasowych 54px, nietknięty). */
+#contactForm .field input[type="text"],
+#contactForm .field input[type="email"] {
+  padding-block: 13px;
+}
+
+/* --- Footer --- */
+.site-footer {
+  position: relative;
+  overflow: hidden;
+  padding-block: var(--sp-8);
+}
+
+.site-footer__top {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  padding-bottom: var(--sp-6);
+  border-bottom: 1px solid var(--line-on-dark);
+}
+
+.site-footer__name {
+  display: inline-flex;
+  align-items: baseline;
+  font-size: 1.15rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.site-footer__role {
+  color: var(--paper-muted);
+  font-size: var(--fs-small);
+  margin-top: 0.3em;
+}
+
+.site-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-4);
+  font-size: var(--fs-small);
+  color: var(--paper-muted);
+}
+
+.site-footer__links a:hover {
+  color: var(--teal);
+}
+
+.site-footer__bottom {
+  margin-top: var(--sp-4);
+  font-size: var(--fs-small);
+  color: var(--paper-muted);
+}
+
+/* --------------------------------------------------------------------------
+   10. REVEAL / MOTION
+   -------------------------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-group > * {
+  transition-delay: calc(var(--reveal-index, 0) * 70ms);
+}
+
+/* --------------------------------------------------------------------------
+   11. IMAGE PLACEHOLDER (do czasu podmiany na realne zdjęcia)
+   -------------------------------------------------------------------------- */
+.img-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* --------------------------------------------------------------------------
+   12. REDUCED MOTION / ACCESSIBILITY
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .section--gradient,
+  .dot-pattern--corner-tr,
+  .dot-pattern--corner-bl,
+  .dot-pattern--corner-br {
+    animation: none;
+  }
+  .btn:hover,
+  .btn:focus-visible {
+    transform: none;
+  }
+  .disclosure__content,
+  .disclosure__icon {
+    transition: none;
+  }
+}
+
+@media (min-width: 900px) {
+  .parallax {
+    will-change: transform;
+  }
+}
