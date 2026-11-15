@@ -398,6 +398,57 @@
   }
 
   /* --------------------------------------------------------------------
+   * 8b. CZYSTE LINKI (bez #anchor w pasku adresu)
+   * Kliknięcie w link do sekcji (#o-mnie, #kontakt, logo → #hero itd.) przewija
+   * stronę tak samo jak natywny anchor, ale NIE dopisuje „#...” do adresu —
+   * w pasku zostaje zawsze samo michalwilkosz.eu. Wejście z linku z hashem
+   * (np. michalwilkosz.eu/#kontakt) też kończy się czystym adresem.
+   * ------------------------------------------------------------------ */
+  function initCleanAnchors() {
+    const cleanUrl = () => {
+      if (window.location.hash) {
+        history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
+    };
+
+    document.addEventListener("click", (event) => {
+      if (event.defaultPrevented || event.button !== 0) return;
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const link = event.target.closest && event.target.closest('a[href^="#"]');
+      if (!link) return;
+      const href = link.getAttribute("href");
+      if (!href || href === "#") return;
+
+      let id;
+      try {
+        id = decodeURIComponent(href.slice(1));
+      } catch (e) {
+        return;
+      }
+      const target = document.getElementById(id);
+      if (!target) return;
+
+      event.preventDefault();
+      // Logo / #hero → sam początek strony; reszta: to samo przewijanie co natywny anchor
+      // (smooth z CSS, instant przy reduced-motion).
+      if (id === "hero") {
+        window.scrollTo({ top: 0 });
+      } else {
+        target.scrollIntoView({ block: "start" });
+      }
+      // Dostępność: fokus przechodzi do sekcji (skip-link, czytniki ekranu).
+      if (!target.hasAttribute("tabindex")) target.setAttribute("tabindex", "-1");
+      target.focus({ preventScroll: true });
+      cleanUrl();
+    });
+
+    // Wejście z hashem w adresie: przeglądarka sama przewinie, my tylko sprzątamy adres.
+    if (window.location.hash) {
+      window.addEventListener("load", () => setTimeout(cleanUrl, 50), { once: true });
+    }
+  }
+
+  /* --------------------------------------------------------------------
    * 9. ROK W STOPCE
    * ------------------------------------------------------------------ */
   function initFooterYear() {
@@ -421,6 +472,7 @@
     initCarouselDots("praktykaList", ".praktyka-entry", "praktykaDots");
     initForm("newsletterForm", "newsletter");
     initForm("contactForm", "contact");
+    initCleanAnchors();
     initFooterYear();
   }
 
