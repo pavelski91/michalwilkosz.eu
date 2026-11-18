@@ -2049,9 +2049,15 @@ h2.section-title {
   .szybex__photo {
     margin-top: var(--sp-12);
     margin-bottom: 0;
-    aspect-ratio: 1200 / 700;
-    margin-inline: calc(-1 * var(--container-pad));
-    width: calc(100% + 2 * var(--container-pad));
+    /* na całą szerokość okna; stała, ograniczona wysokość, więc postać ma tę samą skalę na każdym monitorze,
+       a przy szerszym oknie odsłania się tylko więcej dorobionego tła po bokach */
+    aspect-ratio: auto;
+    height: clamp(380px, 33vw, 560px);
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+  }
+  .szybex {
+    overflow-x: clip;
   }
 }
 
