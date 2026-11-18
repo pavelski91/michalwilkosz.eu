@@ -143,16 +143,19 @@
 
         <div class="hero__media">
           <div class="hero__image-frame">
-            <img
-              src="images/hero-2165.webp"
-              srcset="images/hero-1100.webp 1100w, images/hero-2165.webp 2165w"
-              sizes="(max-width: 1023px) 100vw, 800px"
-              alt="Michał Wilkosz — CEO Szybex, uśmiechnięty, w czarnym garniturze, oparty na krześle"
-              width="2165"
-              height="2000"
-              loading="eager"
-              fetchpriority="high"
-            />
+            <picture>
+              <source media="(min-width: 1024px)" srcset="images/hero-wide-1203.webp 1203w, images/hero-wide-2405.webp 2405w" sizes="1000px" />
+              <img
+                src="images/hero-2165.webp"
+                srcset="images/hero-1100.webp 1100w, images/hero-2165.webp 2165w"
+                sizes="(max-width: 1023px) 100vw, 800px"
+                alt="Michał Wilkosz — CEO Szybex, uśmiechnięty, w czarnym garniturze, oparty na krześle"
+                width="2165"
+                height="2000"
+                loading="eager"
+                fetchpriority="high"
+              />
+            </picture>
           </div>
         </div>
 

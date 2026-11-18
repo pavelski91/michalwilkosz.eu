@@ -3246,29 +3246,26 @@ h2.section-title {
 .hero .hero__actions {
   display: flex;
   flex-direction: row;
-  flex-wrap: nowrap;
+  flex-wrap: wrap; /* ostateczność: gdy brakuje miejsca (duża czcionka systemowa), drugi przycisk idzie niżej zamiast się ucinać */
   align-items: stretch;
   gap: 8px;
   width: 100%;
   margin-top: 22px;
 }
 .hero .hero__actions .btn {
-  flex: 2 1 0;
-  min-width: 0;
+  flex: 0 0 auto;
   min-height: 46px;
-  padding-inline: 16px;
-  font-size: 0.875rem;
+  padding-inline: clamp(8px, 3.2vw, 16px);
+  font-size: clamp(0.75rem, 3.6vw, 0.875rem);
   white-space: nowrap;
   text-align: center;
 }
 .hero .hero__actions .hero__cta-secondary {
-  flex: 3 1 0;
+  flex: 1 1 auto;
+  min-width: max-content; /* przycisk nigdy nie jest węższy niż jego tekst */
 }
 .hero .dot-pattern { z-index: -2; } /* za zdjęciem: widać ją tylko w przygaszonych strefach */
 
-@media (max-width: 359px) {
-  .hero .hero__actions .btn { padding-inline: 10px; font-size: 0.8125rem; }
-}
 
 /* --- telefon: wysokość zdjęcia dopasowana do ekranu, żeby przyciski były widoczne od razu.
    Zdjęcie ma stałą wielkość (125vw wysokości) i jest zakotwiczone przy dole; na niższych ekranach
@@ -3329,17 +3326,17 @@ h2.section-title {
     margin: 0;
     /* lekko powiększone (x1,16) i zakotwiczone przy dole: głowa wypada na wysokości nagłówka, ucięty tylko pusty szary kawałek u góry */
     height: calc(var(--hero-h) * 1.16);
-    width: calc(var(--hero-h) * 1.16 * 1.0825); /* proporcja zdjęcia 2165 : 2000 */
+    width: calc(var(--hero-h) * 1.16 * 1.2025); /* proporcja zdjęcia desktopowego 2405 : 2000 */
   }
   .hero .hero__image-frame { aspect-ratio: auto; height: 100%; }
   .hero .hero__image-frame img {
     object-position: 50% 0;
     -webkit-mask-image:
-      linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.03) 3.5%, rgba(0,0,0,.1) 8%, rgba(0,0,0,.24) 14%, rgba(0,0,0,.46) 20%, rgba(0,0,0,.7) 27%, rgba(0,0,0,.88) 34%, rgba(0,0,0,.97) 41%, #000 48%),
+      linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.03) 3.1%, rgba(0,0,0,.1) 7.2%, rgba(0,0,0,.24) 12.6%, rgba(0,0,0,.46) 18%, rgba(0,0,0,.7) 24.3%, rgba(0,0,0,.88) 30.6%, rgba(0,0,0,.97) 36.9%, #000 43.2%),
       linear-gradient(180deg, #000, #000);
     -webkit-mask-composite: source-in;
     mask-image:
-      linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.03) 3.5%, rgba(0,0,0,.1) 8%, rgba(0,0,0,.24) 14%, rgba(0,0,0,.46) 20%, rgba(0,0,0,.7) 27%, rgba(0,0,0,.88) 34%, rgba(0,0,0,.97) 41%, #000 48%),
+      linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.03) 3.1%, rgba(0,0,0,.1) 7.2%, rgba(0,0,0,.24) 12.6%, rgba(0,0,0,.46) 18%, rgba(0,0,0,.7) 24.3%, rgba(0,0,0,.88) 30.6%, rgba(0,0,0,.97) 36.9%, #000 43.2%),
       linear-gradient(180deg, #000, #000);
     mask-composite: intersect;
   }
