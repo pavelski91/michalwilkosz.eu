@@ -3200,7 +3200,7 @@ h2.section-title {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 0; /* mobile: sylwetka na środku kadru (zdjęcie ma dodatkowe tło po prawej) */
+  object-position: 40% 0; /* mobile: sylwetka lekko na prawo od środka (zdjęcie ma dodatkowe tło po prawej) */
   filter: brightness(0.92) contrast(1.05) saturate(0.95);
   -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,.86) 60%, rgba(0,0,0,.62) 70%, rgba(0,0,0,.34) 80%, rgba(0,0,0,.12) 91%, rgba(0,0,0,0) 100%);
   mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,.86) 60%, rgba(0,0,0,.62) 70%, rgba(0,0,0,.34) 80%, rgba(0,0,0,.12) 91%, rgba(0,0,0,0) 100%);
@@ -3268,6 +3268,24 @@ h2.section-title {
 
 @media (max-width: 359px) {
   .hero .hero__actions .btn { padding-inline: 10px; font-size: 0.8125rem; }
+}
+
+/* --- telefon: wysokość zdjęcia dopasowana do ekranu, żeby przyciski były widoczne od razu.
+   Zdjęcie ma stałą wielkość (125vw wysokości) i jest zakotwiczone przy dole; na niższych ekranach
+   ucinany jest tylko pusty szary kawałek nad głową. --- */
+@media (max-width: 767px) {
+  .hero .hero__image-frame {
+    aspect-ratio: auto;
+    /* 345 px ≈ nagłówek strony + tekst i przyciski pod zdjęciem; dół 96vw chroni przed ucięciem głowy */
+    height: clamp(96vw, calc(100svh - 345px), 125vw);
+  }
+  .hero .hero__image-frame img {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 125vw;
+  }
 }
 
 /* --- tablet: ta sama kompozycja, większa typografia --- */
