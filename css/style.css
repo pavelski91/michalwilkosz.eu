@@ -3299,8 +3299,8 @@ h2.section-title {
 @media (max-width: 767px) {
   .hero .hero__image-frame {
     aspect-ratio: auto;
-    /* 302 px ≈ nagłówek strony + tekst i przyciski pod zdjęciem; dół 96vw chroni przed ucięciem głowy */
-    height: clamp(96vw, calc(100svh - 302px), 125vw);
+    /* 252 px ≈ nagłówek strony + tekst i przyciski pod zdjęciem; dół 96vw chroni przed ucięciem głowy */
+    height: clamp(96vw, calc(100svh - 252px), 125vw);
   }
   .hero .hero__image-frame img {
     position: absolute;
@@ -3379,4 +3379,12 @@ h2.section-title {
   .hero .hero__actions .btn { flex: 0 0 auto; min-height: 52px; padding-inline: 28px; font-size: 0.9375rem; }
   .hero .hero__actions .btn--primary { font-weight: 600; }
   .hero .hero__actions .hero__cta-secondary { flex: 0 0 auto; }
+}
+
+/* Równe łamanie nagłówków sekcji (bez osieroconego ostatniego słowa). Tylko rozkład wierszy: rozmiary, odstępy i układ bez zmian. */
+h2.section-title,
+.newsletter__headline,
+.manifest__statement,
+.principles__title {
+  text-wrap: balance;
 }
