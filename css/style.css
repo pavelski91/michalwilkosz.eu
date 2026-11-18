@@ -1368,6 +1368,18 @@ h2.section-title {
   color: var(--paper-muted);
 }
 
+/* Dwa akapity pod H1: pierwszy (puenta) jaśniejszy, drugi (kontekst) stonowany, między nimi mały odstęp. */
+.hero__body {
+  max-width: 58ch;
+  text-wrap: balance; /* równe linie, bez osieroconych słów */
+}
+.hero__body--lead {
+  color: var(--paper);
+}
+.hero__body--next {
+  margin-top: 0.75rem;
+}
+
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
@@ -1437,6 +1449,9 @@ h2.section-title {
     margin-top: 20px;
     font-size: 1rem; /* 16px */
     line-height: 1.47;
+  }
+  .hero__body--next {
+    margin-top: 10px;
   }
   /* Iteracja 34 — pełny lead (iteracja 33) na mobile wyglądał jak jeden
      zbity blok tekstu. Rozwiązanie NIE polega na ukrywaniu treści (to był
