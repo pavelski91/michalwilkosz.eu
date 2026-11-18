@@ -1825,18 +1825,14 @@ h2.section-title {
    kolejność wprost (eyebrow+headline → zdjęcie → lead → timeline). Od
    900px .szybex__flow zamienia się w flex i `order` przesuwa zdjęcie na
    koniec sekcji (duże, panoramiczne zamknięcie — sekcja 31 briefu). */
-/* Zdjęcie zamyka sekcję na każdej szerokości (na telefonie: pod osią czasu i jej kropkami). */
-.szybex__flow {
-  display: flex;
-  flex-direction: column;
-}
-.szybex__photo {
-  order: 10;
-}
-@media (max-width: 899px) {
-  /* po zmianie na flex marginesy się nie zlewają — bez podwójnego odstępu nad leadem */
-  .szybex__intro {
-    margin-top: 0;
+/* Telefon: zdjęcie zostaje zaraz po nagłówku (kolejność z DOM). Od 900 px zamyka sekcję. */
+@media (min-width: 900px) {
+  .szybex__flow {
+    display: flex;
+    flex-direction: column;
+  }
+  .szybex__photo {
+    order: 10;
   }
 }
 
@@ -2469,7 +2465,11 @@ h2.section-title {
 }
 
 /* --- Photographic break --- */
-.photo-break {
+.photo-break,
+.section.photo-break {
+  padding-block: 0; /* .section:not(.hero) na mobile miało wyższą specyficzność i dodawało pasy nad/pod zdjęciem */
+}
+#photo-break {
   padding-block: 0;
   position: relative;
 }
@@ -2490,7 +2490,7 @@ h2.section-title {
 
 .photo-break__frame {
   position: relative;
-  aspect-ratio: 1200 / 700;
+  aspect-ratio: 12 / 5;
   overflow: hidden;
 }
 
@@ -2498,7 +2498,7 @@ h2.section-title {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center;
 }
 
 @media (max-width: 767px) {
