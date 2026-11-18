@@ -1710,9 +1710,13 @@ h2.section-title {
    zawężone. Nie zmienia aspect-ratio/wysokości/paddingu — tylko
    horyzontalne wyśrodkowanie skróconego bloku. */
 @media (max-width: 767px) {
+  /* telefon: zdjęcie na całą szerokość ekranu (wychodzi poza padding kontenera), proporcje bez zmian */
   .about__image-frame {
-    max-height: 440px;
-    margin-inline: auto;
+    max-height: none;
+    margin-inline: calc(-1 * var(--container-pad));
+  }
+  .about__image-frame::after {
+    display: none;
   }
 }
 
@@ -2022,6 +2026,17 @@ h2.section-title {
   margin-bottom: var(--sp-6);
   aspect-ratio: 16 / 10;
   overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  /* telefon: zdjęcie na całą szerokość ekranu, kadr 4:3 (jak ostatnie zdjęcie na stronie); obraz ma dorobione tło po bokach, więc postać jest cała */
+  .szybex__photo {
+    margin-inline: calc(-1 * var(--container-pad));
+    aspect-ratio: 4 / 3;
+  }
+  .szybex__photo img {
+    object-position: 50% 0;
+  }
 }
 
 .szybex__photo img {
