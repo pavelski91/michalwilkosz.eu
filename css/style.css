@@ -1368,6 +1368,7 @@ h2.section-title {
   color: var(--paper-muted);
 }
 
+
 .hero__actions {
   display: flex;
   flex-wrap: wrap;
@@ -3152,4 +3153,185 @@ h2.section-title {
   .parallax {
     will-change: transform;
   }
+}
+
+/* ==========================================================================
+   HERO — finalne dopracowanie (typografia, kompozycja, zdjęcie jako tło)
+   Zasady: nagłówek łamie się w 3 frazach (bez osieroconych słów), tekst ma stałą
+   hierarchię, zdjęcie jest elementem <img> (srcset, alt) wtapianym w tło maską
+   o łagodnym, "fotograficznym" przejściu — nie nakładką z ostrą krawędzią.
+   Prefiks `.hero` podnosi specyficzność ponad starsze reguły hero wyżej.
+   ========================================================================== */
+.hero {
+  --hero-pad: 19px;
+  --hero-text: rgba(247, 246, 242, 0.8); /* jasny szary na ink: kontrast ok. 11:1 */
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 0;
+  align-items: flex-start;
+  padding-block: 0 clamp(36px, 7vw, 60px);
+}
+.hero .container {
+  width: 100%;
+  padding-inline: var(--hero-pad);
+}
+.hero .hero__grid {
+  display: flex;
+  flex-direction: column;
+  row-gap: 0;
+}
+
+/* --- zdjęcie (mobile/tablet: u góry, tekst wchodzi na jego przygaszony dół) --- */
+.hero .hero__media {
+  order: -1;
+  position: relative;
+  margin: 0 calc(-1 * var(--hero-pad));
+  grid-column: auto;
+  grid-row: auto;
+}
+.hero .hero__image-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  height: auto;
+  overflow: hidden;
+}
+.hero .hero__image-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 80% 0;
+  filter: brightness(0.92) contrast(1.05) saturate(0.95);
+  -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,.86) 60%, rgba(0,0,0,.62) 70%, rgba(0,0,0,.34) 80%, rgba(0,0,0,.12) 91%, rgba(0,0,0,0) 100%);
+  mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,.86) 60%, rgba(0,0,0,.62) 70%, rgba(0,0,0,.34) 80%, rgba(0,0,0,.12) 91%, rgba(0,0,0,0) 100%);
+}
+
+/* --- nagłówek: trzy frazy, łamanie tylko między nimi --- */
+.hero .hero__title {
+  order: 0;
+  position: relative;
+  z-index: 2;
+  margin-top: calc(-1 * clamp(64px, 19vw, 130px));
+}
+.hero .hero__statement {
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  /* szerokość kolumny / ok. 10,9 (najdłuższa fraza ≈ 10,4 em) — fraza zawsze mieści się w linii */
+  font-size: clamp(1.625rem, calc((100vw - 2 * var(--hero-pad)) / 10.9), 2.125rem);
+}
+.hero .hero__phrase {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* --- akapity i przyciski --- */
+.hero .hero__stack {
+  order: 1;
+  position: relative;
+  z-index: 2;
+  margin-top: 14px;
+}
+.hero .hero__body {
+  margin: 0;
+  max-width: 46ch;
+  font-size: 0.875rem;       /* 14 px */
+  line-height: 1.55;
+  color: var(--hero-text);
+  text-wrap: pretty;
+}
+.hero .hero__body + .hero__body {
+  margin-top: 10px;
+}
+.hero .hero__actions {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+  margin-top: 22px;
+}
+.hero .hero__actions .btn {
+  flex: 2 1 0;
+  min-width: 0;
+  min-height: 46px;
+  padding-inline: 16px;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  text-align: center;
+}
+.hero .hero__actions .hero__cta-secondary {
+  flex: 3 1 0;
+}
+.hero .dot-pattern { z-index: -2; } /* za zdjęciem: widać ją tylko w przygaszonych strefach */
+
+@media (max-width: 359px) {
+  .hero .hero__actions .btn { padding-inline: 10px; font-size: 0.8125rem; }
+}
+
+/* --- tablet: ta sama kompozycja, większa typografia --- */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero { --hero-pad: var(--container-pad); }
+  .hero .hero__image-frame { aspect-ratio: 1 / 1; }
+  .hero .hero__statement { font-size: clamp(2.25rem, 4.7vw, 2.75rem); }
+  .hero .hero__phrase { display: block; }
+  .hero .hero__stack { margin-top: 18px; }
+  .hero .hero__body { font-size: 0.9375rem; max-width: 52ch; }
+  .hero .hero__actions { width: auto; gap: 12px; margin-top: 26px; }
+  .hero .hero__actions .btn { flex: 0 0 auto; min-height: 50px; padding-inline: 24px; font-size: 0.9375rem; }
+}
+
+/* --- desktop: tekst po lewej, portret wtopiony w tło po prawej --- */
+@media (min-width: 1024px) {
+  .hero {
+    --hero-pad: var(--container-pad);
+    --hero-h: clamp(620px, 55vw, 800px);
+    align-items: center;
+    min-height: var(--hero-h);
+    padding-block: clamp(64px, 6vw, 96px);
+  }
+  .hero .hero__grid {
+    display: grid;
+    grid-template-columns: minmax(0, clamp(480px, 42vw, 580px));
+    align-content: center;
+    row-gap: 0;
+  }
+  .hero .hero__title { grid-column: 1; grid-row: 1; margin-top: 0; align-self: end; }
+  .hero .hero__stack { grid-column: 1; grid-row: 2; align-self: start; margin-top: 22px; }
+
+  .hero .hero__media {
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    width: calc(var(--hero-h) * 0.9025); /* proporcja zdjęcia 1805 : 2000 */
+  }
+  .hero .hero__image-frame { aspect-ratio: auto; height: 100%; }
+  .hero .hero__image-frame img {
+    object-position: 50% 0;
+    -webkit-mask-image:
+      linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.03) 6%, rgba(0,0,0,.1) 14%, rgba(0,0,0,.24) 24%, rgba(0,0,0,.46) 36%, rgba(0,0,0,.7) 48%, rgba(0,0,0,.88) 60%, rgba(0,0,0,.97) 72%, #000 84%),
+      linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.45) 6%, rgba(0,0,0,.85) 12%, #000 20%, #000 84%, rgba(0,0,0,.6) 94%, rgba(0,0,0,.1) 100%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.03) 6%, rgba(0,0,0,.1) 14%, rgba(0,0,0,.24) 24%, rgba(0,0,0,.46) 36%, rgba(0,0,0,.7) 48%, rgba(0,0,0,.88) 60%, rgba(0,0,0,.97) 72%, #000 84%),
+      linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.45) 6%, rgba(0,0,0,.85) 12%, #000 20%, #000 84%, rgba(0,0,0,.6) 94%, rgba(0,0,0,.1) 100%);
+    mask-composite: intersect;
+  }
+
+  .hero .hero__statement {
+    display: block;
+    font-size: clamp(2.375rem, 1.45rem + 1.45vw, 2.875rem); /* 38 → 46 px */
+  }
+  .hero .hero__phrase { display: block; }
+
+  .hero .hero__body { font-size: 1rem; line-height: 1.62; max-width: 460px; }
+  .hero .hero__body + .hero__body { margin-top: 14px; }
+  .hero .hero__actions { width: auto; gap: 12px; margin-top: 30px; }
+  .hero .hero__actions .btn { flex: 0 0 auto; min-height: 52px; padding-inline: 28px; font-size: 0.9375rem; }
+  .hero .hero__actions .btn--primary { font-weight: 600; }
+  .hero .hero__actions .hero__cta-secondary { flex: 0 0 auto; }
 }

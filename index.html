@@ -32,6 +32,7 @@
   <!-- Preconnect / preload — self-hosted fonty, brak zależności od CDN -->
   <link rel="preload" href="assets/fonts/general-sans-400.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="assets/fonts/general-sans-600.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="assets/fonts/general-sans-700.woff2" as="font" type="font/woff2" crossorigin />
 
   <link rel="stylesheet" href="css/style.css" />
 
@@ -137,38 +138,32 @@
           class="hero__title"
           aria-label="Michał Wilkosz — Buduję organizacje, które potrafią rosnąć bez utraty jakości."
         >
-          <span class="hero__statement">Buduję organizacje, które potrafią rosnąć bez utraty jakości.</span>
+          <span class="hero__statement"><span class="hero__phrase">Buduję organizacje,</span> <span class="hero__phrase">które potrafią rosnąć</span> <span class="hero__phrase">bez utraty jakości.</span></span>
         </h1>
 
         <div class="hero__media">
-          <div class="hero__image-frame parallax">
+          <div class="hero__image-frame">
             <img
-              src="images/hero-smile-1444.webp"
-              srcset="images/hero-smile-800.webp 800w, images/hero-smile-1444.webp 1444w"
-              sizes="(max-width: 767px) 100vw, 480px"
+              src="images/hero-1805.webp"
+              srcset="images/hero-1000.webp 1000w, images/hero-1805.webp 1805w"
+              sizes="(max-width: 1023px) 100vw, 800px"
               alt="Michał Wilkosz — CEO Szybex, uśmiechnięty, w czarnym garniturze, oparty na krześle"
-              width="1444"
-              height="1805"
+              width="1805"
+              height="2000"
               loading="eager"
               fetchpriority="high"
             />
           </div>
         </div>
 
-        <!-- .hero__stack grupuje body/descriptor/CTA w JEDEN element gridu
-             (normalny document flow w środku, własne marginesy) — inaczej
-             zdjęcie rozpięte na 4 osobne wiersze wymuszało ich nierówny
-             wzrost (grid rozciągał wiersze do wysokości zdjęcia). -->
         <div class="hero__stack">
           <p class="hero__body">
-            Najwięcej nauczyłem się, przechodząc od codziennej pracy operacyjnej do zarządzania
-            całą organizacją.<span
-              class="hero__body-more"
-              >
-              Dziś, jako CEO Szybex — części Cary Group — skupiam się na budowaniu struktur,
-              procesów i zespołów, które pozwalają firmie rozwijać się w sposób świadomy
-              i przewidywalny.</span
-            >
+            Przeszedłem drogę od codziennych wyzwań operacyjnych do zarządzania całą organizacją.
+            To doświadczenie ukształtowało moje podejście do biznesu.
+          </p>
+          <p class="hero__body">
+            Dziś jako CEO Szybex, części Cary Group, buduję zespoły i struktury, które pozwalają
+            skalować biznes w sposób przemyślany i trwały.
           </p>
           <div class="hero__actions">
             <a href="#o-mnie" class="btn btn--primary">Poznaj mnie</a>
