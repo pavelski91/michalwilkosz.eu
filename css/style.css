@@ -1825,13 +1825,18 @@ h2.section-title {
    kolejność wprost (eyebrow+headline → zdjęcie → lead → timeline). Od
    900px .szybex__flow zamienia się w flex i `order` przesuwa zdjęcie na
    koniec sekcji (duże, panoramiczne zamknięcie — sekcja 31 briefu). */
-@media (min-width: 900px) {
-  .szybex__flow {
-    display: flex;
-    flex-direction: column;
-  }
-  .szybex__photo {
-    order: 10;
+/* Zdjęcie zamyka sekcję na każdej szerokości (na telefonie: pod osią czasu i jej kropkami). */
+.szybex__flow {
+  display: flex;
+  flex-direction: column;
+}
+.szybex__photo {
+  order: 10;
+}
+@media (max-width: 899px) {
+  /* po zmianie na flex marginesy się nie zlewają — bez podwójnego odstępu nad leadem */
+  .szybex__intro {
+    margin-top: 0;
   }
 }
 
