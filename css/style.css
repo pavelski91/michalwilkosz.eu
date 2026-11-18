@@ -3270,6 +3270,24 @@ h2.section-title {
   .hero .hero__actions .btn { padding-inline: 10px; font-size: 0.8125rem; }
 }
 
+/* --- telefon: wysokość zdjęcia dopasowana do ekranu, żeby przyciski były widoczne od razu.
+   Zdjęcie ma stałą wielkość (125vw wysokości) i jest zakotwiczone przy dole; na niższych ekranach
+   ucinany jest tylko pusty szary kawałek nad głową. --- */
+@media (max-width: 767px) {
+  .hero .hero__image-frame {
+    aspect-ratio: auto;
+    /* 345 px ≈ nagłówek strony + tekst i przyciski pod zdjęciem; dół 96vw chroni przed ucięciem głowy */
+    height: clamp(96vw, calc(100svh - 345px), 125vw);
+  }
+  .hero .hero__image-frame img {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 125vw;
+  }
+}
+
 /* --- tablet: ta sama kompozycja, większa typografia --- */
 @media (min-width: 768px) and (max-width: 1023px) {
   .hero { --hero-pad: var(--container-pad); }
