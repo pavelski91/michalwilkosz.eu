@@ -3380,3 +3380,11 @@ h2.section-title {
   .hero .hero__actions .btn--primary { font-weight: 600; }
   .hero .hero__actions .hero__cta-secondary { flex: 0 0 auto; }
 }
+
+/* Równe łamanie nagłówków sekcji (bez osieroconego ostatniego słowa). Tylko rozkład wierszy: rozmiary, odstępy i układ bez zmian. */
+h2.section-title,
+.newsletter__headline,
+.manifest__statement,
+.principles__title {
+  text-wrap: balance;
+}
