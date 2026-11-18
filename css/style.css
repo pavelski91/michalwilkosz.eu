@@ -2490,7 +2490,9 @@ h2.section-title {
 
 .photo-break__frame {
   position: relative;
-  aspect-ratio: 12 / 5;
+  /* Desktop/tablet: stała, ograniczona WYSOKOŚĆ pasa (nie proporcja), żeby na szerokich monitorach
+     twarz nie rosła razem z ekranem. Obraz jest bardzo szeroki (3200×700) i przycinany po bokach. */
+  height: clamp(380px, 36vw, 525px);
   overflow: hidden;
 }
 
@@ -2503,6 +2505,7 @@ h2.section-title {
 
 @media (max-width: 767px) {
   .photo-break__frame {
+    height: auto;
     aspect-ratio: 4 / 3;
   }
   /* Siatka kropek nachodziła na twarz na wąskim ekranie (postać stoi
