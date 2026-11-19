@@ -3352,17 +3352,21 @@ h2.section-title {
     margin: 0;
     /* lekko powiększone (x1,16) i zakotwiczone przy dole: głowa wypada na wysokości nagłówka, ucięty tylko pusty szary kawałek u góry */
     height: calc(var(--hero-h) * 1.16);
-    width: calc(var(--hero-h) * 1.16 * 1.2025); /* proporcja zdjęcia desktopowego 2405 : 2000 */
+    width: calc(var(--hero-h) * 1.16 * 1.3225); /* proporcja zdjęcia desktopowego 2645 : 2000 (po prawej dorobione tło, żeby Michał był bliżej tekstu) */
   }
   .hero .hero__image-frame { aspect-ratio: auto; height: 100%; }
+  /* węższe okna desktopowe: zostaje poprzednia pozycja Michała (dorobiony pasek tła wystaje poza ekran), żeby tekst nie wchodził na zdjęcie */
+  @media (max-width: 1259px) {
+    .hero .hero__media { right: calc(var(--hero-h) * 1.16 * -0.12); }
+  }
   .hero .hero__image-frame img {
     object-position: 50% 0;
     -webkit-mask-image:
-      linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.03) 3.1%, rgba(0,0,0,.1) 7.2%, rgba(0,0,0,.24) 12.6%, rgba(0,0,0,.46) 18%, rgba(0,0,0,.7) 24.3%, rgba(0,0,0,.88) 30.6%, rgba(0,0,0,.97) 36.9%, #000 43.2%),
+      linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.03) 2.8%, rgba(0,0,0,0.1) 6.5%, rgba(0,0,0,0.24) 11.5%, rgba(0,0,0,0.46) 16.4%, rgba(0,0,0,0.7) 22.1%, rgba(0,0,0,0.88) 27.8%, rgba(0,0,0,0.97) 33.5%, #000 39.3%),
       linear-gradient(180deg, #000, #000);
     -webkit-mask-composite: source-in;
     mask-image:
-      linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.03) 3.1%, rgba(0,0,0,.1) 7.2%, rgba(0,0,0,.24) 12.6%, rgba(0,0,0,.46) 18%, rgba(0,0,0,.7) 24.3%, rgba(0,0,0,.88) 30.6%, rgba(0,0,0,.97) 36.9%, #000 43.2%),
+      linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.03) 2.8%, rgba(0,0,0,0.1) 6.5%, rgba(0,0,0,0.24) 11.5%, rgba(0,0,0,0.46) 16.4%, rgba(0,0,0,0.7) 22.1%, rgba(0,0,0,0.88) 27.8%, rgba(0,0,0,0.97) 33.5%, #000 39.3%),
       linear-gradient(180deg, #000, #000);
     mask-composite: intersect;
   }
