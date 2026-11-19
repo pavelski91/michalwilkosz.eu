@@ -3226,7 +3226,7 @@ h2.section-title {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 40% 0; /* mobile: sylwetka lekko na prawo od środka (zdjęcie ma dodatkowe tło po prawej) */
+  object-position: 28% 0; /* mobile: sylwetka bliżej środka (zdjęcie ma dodatkowe tło po lewej i prawej) */
   filter: brightness(0.92) contrast(1.05) saturate(0.95);
   -webkit-mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,.86) 60%, rgba(0,0,0,.62) 70%, rgba(0,0,0,.34) 80%, rgba(0,0,0,.12) 91%, rgba(0,0,0,0) 100%);
   mask-image: linear-gradient(180deg, #000 0%, #000 50%, rgba(0,0,0,.86) 60%, rgba(0,0,0,.62) 70%, rgba(0,0,0,.34) 80%, rgba(0,0,0,.12) 91%, rgba(0,0,0,0) 100%);
