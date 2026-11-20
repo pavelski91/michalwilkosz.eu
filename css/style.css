@@ -3105,7 +3105,8 @@ h2.section-title {
 .site-footer__links {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-4);
+  align-items: baseline;
+  gap: var(--sp-1) var(--sp-3);
   font-size: var(--fs-small);
   color: var(--paper-muted);
 }
@@ -3397,18 +3398,18 @@ h2.section-title,
   text-wrap: balance;
 }
 
-/* --- informacja o cookies: mała karta w rogu, jeden przycisk, bez blokowania strony --- */
+/* --- zgoda na cookies: mała karta w rogu, nie blokuje strony --- */
 .cookie-notice {
   position: fixed;
   z-index: 90;
   left: 24px;
   bottom: 24px;
-  width: min(400px, calc(100vw - 48px));
+  width: min(420px, calc(100vw - 48px));
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 18px;
-  background: rgba(10, 13, 12, 0.96);
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px 20px;
+  background: rgba(10, 13, 12, 0.97);
   color: var(--paper);
   border: 1px solid var(--line-on-dark);
   border-radius: var(--radius);
@@ -3425,7 +3426,6 @@ h2.section-title,
 }
 .cookie-notice__text {
   margin: 0;
-  flex: 1 1 auto;
   font-size: 0.8125rem;
   line-height: 1.5;
   color: rgba(247, 246, 242, 0.82);
@@ -3437,10 +3437,14 @@ h2.section-title,
   white-space: nowrap;
 }
 .cookie-notice__text a:hover { color: var(--paper); }
+.cookie-notice__actions {
+  display: flex;
+  gap: 10px;
+}
 .cookie-notice__btn {
-  flex: 0 0 auto;
-  min-height: 40px;
-  padding-inline: 16px;
+  flex: 1 1 0;
+  min-height: 42px;
+  padding-inline: 14px;
   font-size: 0.8125rem;
 }
 @media (max-width: 767px) {
@@ -3457,3 +3461,17 @@ h2.section-title,
 @media (prefers-reduced-motion: reduce) {
   .cookie-notice { transition: none; transform: none; }
 }
+
+/* przycisk "Ustawienia cookies" w stopce — wygląda jak pozostałe linki */
+.site-footer__linkbtn {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+.site-footer__linkbtn:hover,
+.site-footer__linkbtn:focus-visible { color: var(--teal); }
