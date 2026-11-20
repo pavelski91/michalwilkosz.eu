@@ -528,8 +528,8 @@
     notice.setAttribute("role", "region");
     notice.setAttribute("aria-label", "Zgoda na pliki cookies");
     notice.innerHTML =
-      '<p class="cookie-notice__text">Chcę korzystać z Google Analytics, aby rozumieć, jak odwiedzający korzystają ze strony. ' +
-      'Włączę je tylko za Twoją zgodą. <a href="cookies.html">Polityka cookies</a></p>' +
+      '<p class="cookie-notice__text">Ta strona korzysta z plików cookies w celach statystycznych. ' +
+      'Więcej informacji w <a href="cookies.html">Polityce cookies</a>.</p>' +
       '<div class="cookie-notice__actions">' +
       '<button type="button" class="btn btn--outline cookie-notice__btn" data-consent="denied">Odrzucam</button>' +
       '<button type="button" class="btn btn--primary cookie-notice__btn" data-consent="granted">Akceptuję</button>' +
