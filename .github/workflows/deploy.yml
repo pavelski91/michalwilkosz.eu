@@ -22,6 +22,7 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-24.04
+    timeout-minutes: 10 # zawieszone połączenie SFTP nie może blokować kolejnych deployów
     steps:
       - name: Sprawdź, czy sekrety są ustawione
         id: secrets
@@ -62,12 +63,15 @@ jobs:
           # (dokumenty robocze, źródła, notatki, narzędzia, README) zostaje tylko na GitHubie.
           lftp -c "
             set sftp:auto-confirm yes;
+            set sftp:connect-program \"ssh -a -x -o ServerAliveInterval=15 -o ServerAliveCountMax=3\";
+            set net:timeout 30;
             set net:max-retries 3;
+            set net:reconnect-interval-base 5;
             open -u \"$FTP_USERNAME\",\"$FTP_PASSWORD\" sftp://$FTP_SERVER;
-            mirror --reverse --only-newer --parallel=4 --verbose css    \"$FTP_SERVER_DIR/css\";
-            mirror --reverse --only-newer --parallel=4 --verbose js     \"$FTP_SERVER_DIR/js\";
-            mirror --reverse --only-newer --parallel=4 --verbose assets \"$FTP_SERVER_DIR/assets\";
-            mirror --reverse --only-newer --parallel=4 --verbose images \"$FTP_SERVER_DIR/images\";
-            mirror --reverse --only-newer --parallel=4 --verbose api    \"$FTP_SERVER_DIR/api\";
+            mirror --reverse --only-newer --parallel=2 --verbose css    \"$FTP_SERVER_DIR/css\";
+            mirror --reverse --only-newer --parallel=2 --verbose js     \"$FTP_SERVER_DIR/js\";
+            mirror --reverse --only-newer --parallel=2 --verbose assets \"$FTP_SERVER_DIR/assets\";
+            mirror --reverse --only-newer --parallel=2 --verbose images \"$FTP_SERVER_DIR/images\";
+            mirror --reverse --only-newer --parallel=2 --verbose api    \"$FTP_SERVER_DIR/api\";
             mput -O \"$FTP_SERVER_DIR\" index.html cookies.html polityka-prywatnosci.html robots.txt sitemap.xml favicon.ico apple-touch-icon.png
           "
