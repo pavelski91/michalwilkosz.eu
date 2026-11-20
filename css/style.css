@@ -3359,6 +3359,10 @@ h2.section-title {
   @media (max-width: 1259px) {
     .hero .hero__media { right: calc(var(--hero-h) * 1.16 * -0.12); }
   }
+  /* średnie okna (laptopy): połowa przesunięcia — pełne dopiero od 1750 px, gdzie jest dość miejsca między tekstem a zdjęciem */
+  @media (min-width: 1260px) and (max-width: 1749px) {
+    .hero .hero__media { right: calc(var(--hero-h) * 1.16 * -0.06); }
+  }
   .hero .hero__image-frame img {
     object-position: 50% 0;
     -webkit-mask-image:
@@ -3391,4 +3395,65 @@ h2.section-title,
 .manifest__statement,
 .principles__title {
   text-wrap: balance;
+}
+
+/* --- informacja o cookies: mała karta w rogu, jeden przycisk, bez blokowania strony --- */
+.cookie-notice {
+  position: fixed;
+  z-index: 90;
+  left: 24px;
+  bottom: 24px;
+  width: min(400px, calc(100vw - 48px));
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 18px;
+  background: rgba(10, 13, 12, 0.96);
+  color: var(--paper);
+  border: 1px solid var(--line-on-dark);
+  border-radius: var(--radius);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+.cookie-notice.is-visible {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.cookie-notice__text {
+  margin: 0;
+  flex: 1 1 auto;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: rgba(247, 246, 242, 0.82);
+}
+.cookie-notice__text a {
+  color: var(--teal);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  white-space: nowrap;
+}
+.cookie-notice__text a:hover { color: var(--paper); }
+.cookie-notice__btn {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding-inline: 16px;
+  font-size: 0.8125rem;
+}
+@media (max-width: 767px) {
+  .cookie-notice {
+    left: 12px;
+    right: 12px;
+    width: auto;
+    bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+    padding: 14px;
+    gap: 12px;
+  }
+  .cookie-notice__text { font-size: 0.75rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cookie-notice { transition: none; transform: none; }
 }
