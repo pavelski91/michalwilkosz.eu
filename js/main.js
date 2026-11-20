@@ -457,6 +457,38 @@
   }
 
   /* --------------------------------------------------------------------
+   * 9b. INFORMACJA O COOKIES
+   * Serwis nie używa cookies analitycznych ani reklamowych, więc to krótka
+   * informacja z jednym przyciskiem (bez "akceptuj/odrzuć"). Zamknięcie jest
+   * zapamiętane w localStorage (sama informacja o zamknięciu, bez identyfikatora).
+   * Gdy kiedyś dojdzie analityka/marketing — zamienić na prawdziwy mechanizm zgody.
+   * ------------------------------------------------------------------ */
+  function initCookieNotice() {
+    const KEY = "mw_cookie_notice_v1";
+    try {
+      if (window.localStorage.getItem(KEY)) return;
+    } catch (e) {
+      /* localStorage niedostępny — pokaż informację, zamknięcie obowiązuje do końca wizyty */
+    }
+    const notice = document.createElement("div");
+    notice.className = "cookie-notice";
+    notice.setAttribute("role", "region");
+    notice.setAttribute("aria-label", "Informacja o plikach cookies");
+    notice.innerHTML =
+      '<p class="cookie-notice__text">Ta strona korzysta wyłącznie z technologii niezbędnych do jej działania. ' +
+      'Nie stosujemy cookies analitycznych ani reklamowych. ' +
+      '<a href="cookies.html">Polityka cookies</a></p>' +
+      '<button type="button" class="btn btn--primary cookie-notice__btn">Rozumiem</button>';
+    document.body.appendChild(notice);
+    window.setTimeout(function () { notice.classList.add("is-visible"); }, 700);
+    notice.querySelector("button").addEventListener("click", function () {
+      try { window.localStorage.setItem(KEY, "1"); } catch (e) { /* ignoruj */ }
+      notice.classList.remove("is-visible");
+      window.setTimeout(function () { notice.remove(); }, 400);
+    });
+  }
+
+  /* --------------------------------------------------------------------
    * 10. BOOTSTRAP
    * ------------------------------------------------------------------ */
   function init() {
@@ -474,6 +506,7 @@
     initForm("contactForm", "contact");
     initCleanAnchors();
     initFooterYear();
+    initCookieNotice();
   }
 
   if (document.readyState === "loading") {
