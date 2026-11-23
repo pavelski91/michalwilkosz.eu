@@ -1875,24 +1875,6 @@ h2.section-title {
   }
 }
 
-.szybex__meta {
-  /* tag „część Cary Group” siedzi pod zdjęciem (na telefonie zaraz pod nim, na desktopie pod panoramą) */
-  display: block;
-  width: fit-content;
-  margin-top: var(--sp-3);
-}
-@media (max-width: 899px) {
-  .szybex__flow .szybex__photo {
-    margin-bottom: 0;
-  }
-}
-@media (min-width: 900px) {
-  .szybex__meta {
-    order: 11;
-    align-self: flex-start;
-  }
-}
-
 /* Editorial timeline — Michał na tle historii firmy, nie karty SaaS */
 .szybex-timeline {
   display: flex;
